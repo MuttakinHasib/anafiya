@@ -1,0 +1,15 @@
+{
+  "name": "anafiya",
+  "version": "1.0.0",
+  "description": "MERN E-commerce Islamic Shop",
+  "main": "server",
+  "scripts": {
+    "client": "npm start --prefix client",
+    "dev": "npm run client"
+  },
+  "keywords": [
+    "anafiya"
+  ],
+  "author": "Hasib Molla",
+  "license": "ISC"
+}

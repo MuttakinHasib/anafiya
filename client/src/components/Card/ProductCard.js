@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Rating from '../Rating';
 
-const ProductCard = ({ image, category, name, price, rating, reviews }) => {
+const ProductCard = ({ id, image, category, name, price, rating, reviews }) => {
   return (
     <div className='flex flex-col justify-center mx-auto hover:shadow-xl border-2 border-dashed transition-shadow duration-500'>
-      <Link to={'/product/1'} className='flex-1'>
+      <Link to={`/product/${id}`} className='flex-1'>
         <img className='h-64 w-80 object-cover ' src={image} alt='' />
       </Link>
       <div className='px-5 py-3'>
@@ -26,7 +26,7 @@ const ProductCard = ({ image, category, name, price, rating, reviews }) => {
       <div className='flex justify-between items-center px-5 py-3 border-t border-dotted'>
         <h3 className='text-base text-yellow-700'>${price}</h3>
         <button
-          className='text-blue-900 hover:underline font-semibold flex items-center space-x-2'
+          className='text-blue-900 hover:underline focus:outline-none font-semibold flex items-center space-x-2'
           title='Add to cart'
         >
           <svg

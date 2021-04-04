@@ -9,7 +9,7 @@ const Header = () => {
   const innerRef = useMenuHandler(() => setIsOpen(false));
 
   return (
-    <nav className='sticky top-0 z-50'>
+    <nav className='sticky top-0 z-50 border-b'>
       <div className='max-w-7xl mx-auto px-6 lg:px-8'>
         <div className='relative flex items-center justify-between h-16'>
           <div className='flex items-center justify-center sm:items-stretch sm:justify-start'>
@@ -72,7 +72,7 @@ const Header = () => {
             <form>
               <div className='relative'>
                 <input
-                  className='border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-5 overflow-hidden'
+                  className='border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-5 pl-12 w-64 overflow-hidden'
                   type='text'
                   placeholder='Search here...'
                 />
@@ -81,7 +81,7 @@ const Header = () => {
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'
-                  className='w-5 absolute top-2/4 right-5 transform -translate-y-2/4'
+                  className='w-5 absolute top-2/4 left-4 transform -translate-y-2/4 text-gray-600'
                 >
                   <path
                     strokeLinecap='round'
@@ -92,11 +92,30 @@ const Header = () => {
                 </svg>
               </div>
             </form>
-
+            <Link to='/cart'>
+              <button className='outline-none px-4 py-2 text-gray-700'>
+                <svg
+                  className='w-8'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
+                  />
+                </svg>
+              </button>
+            </Link>
             {true ? (
               <>
                 <Link to='/login'>
-                  <button className='outline-none px-5 py-2'>Sign in</button>
+                  <button className='border rounded-md border-indigo-500 px-5 py-2'>
+                    Sign in
+                  </button>
                 </Link>
                 <Link to='/register'>
                   <button className='bg-purple-600 text-white px-5 py-2 rounded-md'>

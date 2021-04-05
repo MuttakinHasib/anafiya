@@ -1,8 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import emptyCartImg from '../assets/empty-cart.svg';
 
-const CartScreen = ({history}) => {
-  return (
+const CartScreen = ({ history }) => {
+  return false ? (
+    <div className='space-y-10'>
+      <Link
+        to='/'
+        className='py-3 px-5 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-300'
+      >
+        Go Back
+      </Link>
+      <div className='flex justify-center items-center mt-20'>
+        <img src={emptyCartImg} width='250' height='250' alt='' />
+      </div>
+      <h1 className='text-center text-4xl text-gray-700'>
+        Your Shopping Cart is Empty
+      </h1>
+    </div>
+  ) : (
     <>
       <h2 className='text-4xl text-gray-700 mb-10'>Your Shopping Cart</h2>
       <div className='grid gap-12 grid-cols-3'>
@@ -48,15 +64,18 @@ const CartScreen = ({history}) => {
             </button>
           </div>
         </div>
-        <div className='col-span-1 bg-gray-100 p-8'>
+        <div className='col-span-1 border-2 border-dashed p-8 rounded-md'>
           <h2 className='text-xl text-gray-700 font-semibold mb-5'>
             Order Summary
           </h2>
-          <div className='flex justify-between items-center'>
+          <div className='flex justify-between items-center border-b-2 border-dashed pb-5'>
             <h4 className='text-md text-gray-600'>Sub-total (5) Items</h4>
             <span className='text-base text-gray-600'>$50.55</span>
           </div>
-          <button className='w-full mt-5 bg-purple-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 transition-shadow duration-300'}>
+          <button
+            className='w-full mt-5 bg-purple-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 transition-shadow duration-300'
+            onClick={() => history.push('/shipping')}
+          >
             Process to checkout
           </button>
         </div>

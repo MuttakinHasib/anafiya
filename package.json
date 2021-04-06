@@ -3,13 +3,30 @@
   "version": "1.0.0",
   "description": "MERN E-commerce Islamic Shop",
   "main": "server",
+  "type": "module",
   "scripts": {
+    "start": "node server",
     "client": "npm start --prefix client",
-    "dev": "npm run client"
+    "server": "nodemon server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "anafiya"
   ],
   "author": "Hasib Molla",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "firebase-admin": "^9.6.0",
+    "googleapis": "^70.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.3",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.5.0"
+  }
 }

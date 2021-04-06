@@ -6,4 +6,5 @@ export { default as PlaceOrderScreen } from './PlaceOrderScreen';
 export { default as OrderScreen } from './OrderScreen';
 
 export { default as RegisterScreen } from './RegisterScreen';
+export { default as UserActivationScreen } from './UserActivationScreen';
 export { default as LoginScreen } from './LoginScreen';

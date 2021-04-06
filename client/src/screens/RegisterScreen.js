@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { signInWithGoogle } from '../firebase';
+import { register } from '../redux/actions/userActions';
 
 const RegisterScreen = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -27,6 +31,8 @@ const RegisterScreen = () => {
       toast.error('Please fill all fields');
     } else if (password !== cPassword) {
       toast.error('Please make sure your passwords match');
+    } else {
+      dispatch(register({ firstName, lastName, email, password }));
     }
   };
   return (

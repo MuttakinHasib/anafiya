@@ -12,6 +12,7 @@ import {
   ProductScreen,
   RegisterScreen,
   ShippingScreen,
+  UserActivationScreen,
 } from './screens';
 import PaymentScreen from './screens/PaymentScreen';
 
@@ -35,6 +36,11 @@ function App() {
             <Route exact path='/placeorder' component={PlaceOrderScreen} />
             <Route exact path='/order/:id' component={OrderScreen} />
             <Route exact path='/register' component={RegisterScreen} />
+            <Route
+              exact
+              path='/user/active/:token'
+              component={UserActivationScreen}
+            />
             <Route exact path='/login' component={LoginScreen} />
           </Switch>
         </Container>

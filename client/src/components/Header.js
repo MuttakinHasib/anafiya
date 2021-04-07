@@ -12,7 +12,7 @@ const Header = () => {
   const innerRef = useMenuHandler(() => setIsOpen(false));
   const { user } = useSelector(({ userLogin }) => userLogin);
   return (
-    <nav className='sticky top-0 z-50 border-b'>
+    <nav className='sticky top-0 z-50 border-b bg-white'>
       <div className='max-w-7xl mx-auto px-6 lg:px-8'>
         <div className='relative flex items-center justify-between h-16'>
           <div className='flex items-center justify-center sm:items-stretch sm:justify-start'>

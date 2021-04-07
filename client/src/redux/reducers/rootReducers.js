@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import { cartReducer } from './cartReducers';
+import { productDetailsReducer, productListReducer } from './productReducers';
 import {
   userActivationReducer,
   userFacebookLoginReducer,
@@ -9,8 +11,11 @@ import {
 
 export default combineReducers({
   userLogin: userLoginReducer,
-  userGoogleLogin: userGoogleLoginReducer,
-  userFacebookLogin: userFacebookLoginReducer,
   userRegister: userRegisterReducer,
   userActivation: userActivationReducer,
+  userGoogleLogin: userGoogleLoginReducer,
+  userFacebookLogin: userFacebookLoginReducer,
+  productList: productListReducer,
+  productDetails: productDetailsReducer,
+  cart: cartReducer,
 });

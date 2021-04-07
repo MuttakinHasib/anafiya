@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 .loading svg {
   font-size: 5px;
   font-weight: bold;
@@ -24,6 +23,9 @@
 }
 
 @keyframes dash {
+  from {
+    stroke-dashoffset: 1;
+  }
   to {
     stroke-dashoffset: 234;
   }

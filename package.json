@@ -8,7 +8,9 @@
     "start": "node server",
     "client": "npm start --prefix client",
     "server": "nodemon server",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node server/seeder.js",
+    "data:destroy": "node server/seeder -d"
   },
   "keywords": [
     "anafiya"

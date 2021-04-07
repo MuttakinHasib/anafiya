@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
   return (
-    <div className='flex items-center space-x-5'>
+    <div className='flex items-center space-x-5 text-sm md:text-base'>
       <div className='space-x-5 flex items-center'>
         {step1 ? (
           <>

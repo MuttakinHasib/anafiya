@@ -6,6 +6,7 @@ import cors from 'cors';
 import { errorHandler, notFound } from './middleware/error.js';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
+import productRoutes from './routes/productRoutes.js';
 
 // Config DotEnv
 
@@ -19,9 +20,9 @@ const port = process.env.PORT || 5000;
 // Bypass cors
 app.use(cors());
 
-
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
+  9;
 }
 
 app.use(express.json());
@@ -29,6 +30,7 @@ app.use(express.json());
 // Routes
 
 app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
 
 // Error Handler
 app.use(notFound);

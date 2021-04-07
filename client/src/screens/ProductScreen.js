@@ -1,57 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Rating, StockAlert } from '../components';
-import { products } from '../data';
+import Loader from '../components/Loader';
+import { addToCart } from '../redux/actions/cartActions';
+import { getProductDetails } from '../redux/actions/productActions';
 
-const ProductScreen = ({ match }) => {
-  const id = match.params.id;
-  const product = products[id];
+const ProductScreen = ({ match, history }) => {
+  const [quantity, setQuantity] = useState(1);
+  const productId = match.params.id;
+  const dispatch = useDispatch();
+  const { product, loading } = useSelector(state => state.productDetails);
+
+  useEffect(() => dispatch(getProductDetails(productId)), [
+    dispatch,
+    productId,
+  ]);
+
+  const addToCartHandler = () => {
+    dispatch(addToCart(productId, quantity));
+    history.push(`/cart/${productId}?qty=${quantity}`);
+  };
+
   return (
     <div className='space-y-5 divide-y divide-gray-100'>
+      {loading && <Loader />}
       <div className='grid gap-14 md:grid-cols-2 pb-10'>
         <img
-          src={product.image}
+          src={product?.image}
           alt=''
           className='mx-auto max-w-sm md:max-w-md'
         />
         <div className='mx-auto max-w-sm md:max-w-full'>
           <span className='text-md text-gray-500'>
-            {product.category.toUpperCase()}
+            {product?.category.toUpperCase()}
           </span>
-          <h2 className='text-5xl text-gray-700 mt-5 mb-3'>{product.name}</h2>
+          <h2 className='text-5xl text-gray-700 mt-5 mb-3'>{product?.name}</h2>
           <div className='divide-y-2 divide-gray-100'>
             <div className='flex items-center space-x-5'>
-              <Rating value={product.rating} />
+              <Rating value={product?.rating} />
               <span className='text-gray-400 text-base font-light'>
-                {product.reviews} Reviews
+                {product?.numReviews} Reviews
               </span>
             </div>
             <div className='flex items-center space-x-5 mt-5 pt-5 mb-7'>
-              <h3 className='text-4xl'>${product.price}</h3>
-              <StockAlert inStock />
+              <h3 className='text-4xl'>${product?.price}</h3>
+              <StockAlert inStock={product?.countInStock > 0} />
             </div>
           </div>
-          <p className='text-gray-500 prose'>
-            New for 2021 - My Eid Goodies gift sack in orange. A beautiful
-            bright gift sack for your children's Eid gifts. The Eid sack is
-            available in 6 different colours, and durable so can be re-used for
-            every Eid. Draw string to close.
-          </p>
+          <p className='text-gray-500 prose'>{product?.description}</p>
           <div className='flex items-center space-x-5 mt-10'>
-            <div className='space-x-3'>
-              <span className='font-semibold'>Quantity</span>
-              <select
-                className='text-center border-none bg-gray-100 rounded-md focus:ring-purple-100'
-                name='quantity'
-                id='quantity'
-              >
-                <option value=''>Select...</option>
-                <option value='1' selected>
-                  1
-                </option>
-                <option value='1'>2</option>
-              </select>
-            </div>
-            <button className='w-40 bg-purple-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 rounded-md transition-shadow duration-300'>
+            {product?.countInStock > 0 && (
+              <div className='space-x-3'>
+                <span className='font-semibold'>Quantity</span>
+                <select
+                  className='text-center border-none bg-gray-100 rounded-md focus:ring-purple-100'
+                  name='quantity'
+                  id='quantity'
+                  onChange={e => setQuantity(Number(e.target.value))}
+                >
+                  {[...Array(product?.countInStock).keys()].map(x => (
+                    <option key={x + 1} value={x + 1}>
+                      {x + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <button
+              className={`${
+                product?.countInStock === 0 && 'opacity-50 pointer-events-none'
+              } w-40 bg-purple-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 rounded-md transition-shadow duration-300`}
+              disabled={product?.countInStock === 0}
+              onClick={addToCartHandler}
+            >
               Add to cart
             </button>
           </div>
@@ -61,7 +82,7 @@ const ProductScreen = ({ match }) => {
         <div className='grid gap-10 md:grid-cols-2 '>
           <div>
             <h3 className='text-gray-700 text-2xl mb-10'>
-              Ratings & Reviews of {product.name}
+              Ratings & Reviews of {product?.name}
             </h3>
             <div className='divide-y divide-gray-200'>
               <div className='space-y-3'>
@@ -73,7 +94,7 @@ const ProductScreen = ({ match }) => {
                   />
                   <div>
                     <h2>Hasib Molla</h2>
-                    <Rating value={product.rating} />
+                    <Rating value={product?.rating} />
                   </div>
                 </div>
                 <p className='prose max-w-lg'>

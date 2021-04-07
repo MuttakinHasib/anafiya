@@ -3,17 +3,8 @@ import React from 'react';
 const Loader = () => {
   return (
     <div
-      className='d-flex justify-content-center align-items-center loading text-center '
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        backgroundColor: '#0008',
-        color: '#fff',
-        zIndex: 20,
-        width: '100%',
-        height: '100vh',
-      }}
+      className='fixed flex justify-center items-center w-screen h-screen text-center loading top-0 left-0'
+      style={{ backgroundColor: '#0008', color: '#fff', zIndex: 20 }}
     >
       <svg width='205' height='250' viewBox='0 0 40 50'>
         <polygon

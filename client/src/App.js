@@ -21,7 +21,7 @@ function App() {
     <Router>
       <Header />
       <Toaster
-        position='top-right'
+        position='top-left'
         reverseOrder={false}
         // toastOptions={{ style: { marginTop: '4.5rem' } }}
       />
@@ -30,7 +30,7 @@ function App() {
           <Switch>
             <Route exact path='/' component={HomeScreen} />
             <Route exact path='/product/:id' component={ProductScreen} />
-            <Route exact path='/cart' component={CartScreen} />
+            <Route exact path='/cart/:id?' component={CartScreen} />
             <Route exact path='/shipping' component={ShippingScreen} />
             <Route exact path='/payment' component={PaymentScreen} />
             <Route exact path='/placeorder' component={PlaceOrderScreen} />

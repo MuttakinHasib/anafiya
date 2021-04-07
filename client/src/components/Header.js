@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import logo from '../assets/anafiya_logo.webp';
 import useMenuHandler from '../hooks/useMenuHandler';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/actions/userActions';
 
 const Header = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const innerRef = useMenuHandler(() => setIsOpen(false));
-
+  const { user } = useSelector(({ userLogin }) => userLogin);
   return (
     <nav className='sticky top-0 z-50 border-b'>
       <div className='max-w-7xl mx-auto px-6 lg:px-8'>
@@ -110,7 +113,7 @@ const Header = () => {
                 </svg>
               </button>
             </Link>
-            {true ? (
+            {!user ? (
               <>
                 <Link to='/login'>
                   <button className='border rounded-md border-indigo-500 px-5 py-2'>
@@ -135,11 +138,11 @@ const Header = () => {
                     <span className='sr-only'>Open user menu</span>
                     <img
                       className='h-8 w-8 rounded-full'
-                      src='https://res.cloudinary.com/muttakinhasib/image/upload/v1611336104/avatar/user_qcrqny.svg'
+                      src={user?.avatar}
                       alt=''
                     />
                     <span className='ml-3 text-gray-800 font-semibold'>
-                      User Name
+                      {user?.firstName} {user?.lastName}
                     </span>
                   </button>
                 </div>
@@ -179,6 +182,10 @@ const Header = () => {
                     <button
                       className='flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                       role='menuitem'
+                      onClick={() => {
+                        dispatch(logout());
+                        setIsOpen(false);
+                      }}
                     >
                       Sign out
                     </button>

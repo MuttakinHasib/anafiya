@@ -1,7 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const LoginScreen = () => {
+import { googleSignIn, login } from '../redux/actions/userActions';
+
+const LoginScreen = ({ history }) => {
+  const dispatch = useDispatch();
+  const { user, loading: loginLoading } = useSelector(
+    ({ userLogin }) => userLogin
+  );
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -9,7 +18,26 @@ const LoginScreen = () => {
   const { email, password } = formData;
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch(login(email, password));
+  };
+
+  const googleSignInHandler = res => {
+    dispatch(googleSignIn({ idToken: res.tokenId }));
+  };
+  const facebookSignInHandler = res => {
     
+  };
+
+  useEffect(() => {
+    if (user) {
+      history.push('/');
+    }
+  }, [user, history]);
+
+  // loginError && toast.error(loginError);
   return (
     <div className='grid gap-15 md:grid-cols-2 mt-20'>
       <div className='m-auto'>
@@ -26,7 +54,10 @@ const LoginScreen = () => {
         </p>
       </div>
       <div className='max-w-lg ml-auto'>
-        <form className='space-y-5 border-0 border-dashed border-gray-100 p-10'>
+        <form
+          className='space-y-5 border-0 border-dashed border-gray-100 p-10'
+          {...{ onSubmit }}
+        >
           <input
             type='email'
             name='email'
@@ -58,22 +89,46 @@ const LoginScreen = () => {
             <div style={{ height: '1px' }} className='w-full bg-gray-300'></div>
           </div>
           <div className='flex items-center space-x-5'>
-            <button className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'>
-              <img
-                className='w-7'
-                src='https://img.icons8.com/color/50/000000/google-logo.png'
-                alt=''
-              />
-              <span>Google</span>
-            </button>
-            <button className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'>
-              <img
-                className='w-7'
-                src='https://img.icons8.com/fluent/48/000000/facebook-new.png'
-                alt=''
-              />
-              <span>Facebook</span>
-            </button>
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              render={renderProps => (
+                <button
+                  className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  <img
+                    className='w-7'
+                    src='https://img.icons8.com/color/50/000000/google-logo.png'
+                    alt=''
+                  />
+                  <span>Google</span>
+                </button>
+              )}
+              buttonText='Login'
+              onSuccess={googleSignInHandler}
+              onFailure={googleSignInHandler}
+              cookiePolicy={'single_host_origin'}
+            />
+            <FacebookLogin
+              appId='1088597931155576'
+              autoLoad
+              callback={facebookSignInHandler}
+              render={renderProps => (
+                <button
+                  className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  <img
+                    className='w-7'
+                    src='https://img.icons8.com/fluent/48/000000/facebook-new.png'
+                    alt=''
+                  />
+                  <span>Facebook</span>
+                </button>
+              )}
+            />
           </div>
         </div>
       </div>

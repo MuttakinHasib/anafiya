@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../components/Loader';
 import { userActivation } from '../redux/actions/userActions';
 
 const UserActivationScreen = ({ match, history }) => {
@@ -16,7 +17,7 @@ const UserActivationScreen = ({ match, history }) => {
 
   error && toast.error(error);
 
-  return <div></div>;
+  return <>{loading && <Loader />}</>;
 };
 
 export default UserActivationScreen;

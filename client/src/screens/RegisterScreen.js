@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signInWithGoogle } from '../firebase';
 import { register } from '../redux/actions/userActions';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ history }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector(({ userLogin }) => userLogin);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -35,6 +36,13 @@ const RegisterScreen = () => {
       dispatch(register({ firstName, lastName, email, password }));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      history.push('/');
+    }
+  }, [user, history]);
+
   return (
     <div className='grid gap-15 md:grid-cols-2 mt-20'>
       <div className='m-auto'>

@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
+import { google } from 'googleapis';
 import User from '../models/User.js';
 import {
   createActivationToken,
@@ -7,6 +8,8 @@ import {
 } from '../utils/generateToken.js';
 import { sendActivationEmail } from '../utils/sendMail.js';
 
+const { OAuth2 } = google.auth;
+const client = new OAuth2(process.env.GOOGLE_CLIENT_ID);
 // Register New User
 
 export const register = asyncHandler(async (req, res) => {
@@ -78,5 +81,58 @@ export const login = asyncHandler(async (req, res) => {
   } else {
     res.status(401);
     throw new Error('Invalid email or password');
+  }
+});
+
+// Google Login
+
+export const googleAuth = asyncHandler(async (req, res) => {
+  const { idToken } = req.body;
+  const verify = await client.verifyIdToken({
+    idToken,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+  console.log(verify);
+  const { given_name, email, email_verified, picture } = verify.payload;
+
+  if (email_verified) {
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return res.json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user?.lastName,
+        avatar: user.avatar,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token: generateIdToken(user._id),
+      });
+    } else {
+      const lastName = verify.payload.family_name
+        ? verify.payload.family_name
+        : '';
+      const newUser = await User.create({
+        firstName: given_name,
+        lastName,
+        email,
+        avatar: picture,
+        password: email + process.env.GOOGLE_CLIENT_ID,
+      });
+      if (newUser) {
+        res.json({
+          _id: newUser._id,
+          firstName: newUser.firstName,
+          lastName: newUser?.lastName,
+          avatar: newUser.avatar,
+          email: newUser.email,
+          isAdmin: newUser.isAdmin,
+          token: generateIdToken(newUser._id),
+        });
+      }
+    }
+  } else {
+    res.status(400);
+    throw new Error('Google sign in failed');
   }
 });

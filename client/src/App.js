@@ -23,7 +23,7 @@ function App() {
       <Toaster
         position='top-right'
         reverseOrder={false}
-        toastOptions={{ style: { marginTop: '4.5rem' } }}
+        // toastOptions={{ style: { marginTop: '4.5rem' } }}
       />
       <main>
         <Container>

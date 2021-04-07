@@ -4,7 +4,12 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { googleSignIn, login } from '../redux/actions/userActions';
+import {
+  facebookSignIn,
+  googleSignIn,
+  login,
+} from '../redux/actions/userActions';
+import Loader from '../components/Loader';
 
 const LoginScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -28,7 +33,8 @@ const LoginScreen = ({ history }) => {
     dispatch(googleSignIn({ idToken: res.tokenId }));
   };
   const facebookSignInHandler = res => {
-    
+    const { accessToken, userID } = res;
+    dispatch(facebookSignIn({ accessToken, userID }));
   };
 
   useEffect(() => {
@@ -40,6 +46,7 @@ const LoginScreen = ({ history }) => {
   // loginError && toast.error(loginError);
   return (
     <div className='grid gap-15 md:grid-cols-2 mt-20'>
+      {loginLoading && <Loader />}
       <div className='m-auto'>
         <h2 className='text-5xl leading-tight font-semibold text-gray-700'>
           Assalamualaikom
@@ -111,8 +118,9 @@ const LoginScreen = ({ history }) => {
               cookiePolicy={'single_host_origin'}
             />
             <FacebookLogin
-              appId='1088597931155576'
-              autoLoad
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+              autoLoad={false}
+              fields='name,email,picture'
               callback={facebookSignInHandler}
               render={renderProps => (
                 <button

@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import { google } from 'googleapis';
+import fetch from 'node-fetch';
 import User from '../models/User.js';
 import {
   createActivationToken,
@@ -92,7 +93,7 @@ export const googleAuth = asyncHandler(async (req, res) => {
     idToken,
     audience: process.env.GOOGLE_CLIENT_ID,
   });
-  console.log(verify);
+
   const { given_name, email, email_verified, picture } = verify.payload;
 
   if (email_verified) {
@@ -134,5 +135,50 @@ export const googleAuth = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error('Google sign in failed');
+  }
+});
+
+// Facebook Login
+
+export const facebookAuth = asyncHandler(async (req, res) => {
+  const { accessToken, userID } = req.body;
+  const URL = `https://graph.facebook.com/v2.9/${userID}/?fields=id,name,email,picture&access_token=${accessToken}`;
+
+  const data = await fetch(URL)
+    .then(res => res.json())
+    .then(res => res);
+
+  const { name, email, picture } = data;
+
+  const user = await User.findOne({ email });
+
+  if (user) {
+    return res.json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatar,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateIdToken(user._id),
+    });
+  } else {
+    const newUser = await User.create({
+      firstName: name,
+      email,
+      avatar: picture.data.url,
+      password: email + process.env.GOOGLE_CLIENT_ID,
+    });
+    if (newUser) {
+      res.json({
+        _id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser?.lastName,
+        avatar: newUser.avatar,
+        email: newUser.email,
+        isAdmin: newUser.isAdmin,
+        token: generateIdToken(newUser._id),
+      });
+    }
   }
 });

@@ -2,8 +2,14 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInWithGoogle } from '../firebase';
-import { register } from '../redux/actions/userActions';
+
+import {
+  facebookSignIn,
+  googleSignIn,
+  register,
+} from '../redux/actions/userActions';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { GoogleLogin } from 'react-google-login';
 
 const RegisterScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -35,6 +41,14 @@ const RegisterScreen = ({ history }) => {
     } else {
       dispatch(register({ firstName, lastName, email, password }));
     }
+  };
+
+  const googleSignInHandler = res => {
+    dispatch(googleSignIn({ idToken: res.tokenId }));
+  };
+  const facebookSignInHandler = res => {
+    const { accessToken, userID } = res;
+    dispatch(facebookSignIn({ accessToken, userID }));
   };
 
   useEffect(() => {
@@ -123,25 +137,47 @@ const RegisterScreen = ({ history }) => {
             <div style={{ height: '1px' }} className='w-full bg-gray-300'></div>
           </div>
           <div className='flex items-center space-x-5'>
-            <button
-              className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'
-              onClick={signInWithGoogle}
-            >
-              <img
-                className='w-7'
-                src='https://img.icons8.com/color/50/000000/google-logo.png'
-                alt=''
-              />
-              <span>Google</span>
-            </button>
-            <button className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'>
-              <img
-                className='w-7'
-                src='https://img.icons8.com/fluent/48/000000/facebook-new.png'
-                alt=''
-              />
-              <span>Facebook</span>
-            </button>
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              render={renderProps => (
+                <button
+                  className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  <img
+                    className='w-7'
+                    src='https://img.icons8.com/color/50/000000/google-logo.png'
+                    alt=''
+                  />
+                  <span>Google</span>
+                </button>
+              )}
+              buttonText='Login'
+              onSuccess={googleSignInHandler}
+              onFailure={googleSignInHandler}
+              cookiePolicy={'single_host_origin'}
+            />
+            <FacebookLogin
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+              autoLoad={false}
+              fields='name,email,picture'
+              callback={facebookSignInHandler}
+              render={renderProps => (
+                <button
+                  className='w-full focus:outline-none flex justify-center items-center space-x-2 px-5 py-2 border-2 hover:bg-gray-50 text-gray-600 border-gray-100 rounded-md transition-colors duration-300'
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  <img
+                    className='w-7'
+                    src='https://img.icons8.com/fluent/48/000000/facebook-new.png'
+                    alt=''
+                  />
+                  <span>Facebook</span>
+                </button>
+              )}
+            />
           </div>
         </div>
       </div>

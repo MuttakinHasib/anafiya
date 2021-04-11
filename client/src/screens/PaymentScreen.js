@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CheckoutSteps } from '../components';
+import { savePaymentMethod } from '../redux/actions/cartActions';
 
 const PaymentScreen = ({ history }) => {
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cart);
+  const { user } = useSelector(state => state.userLogin);
+  const [paymentMethod, setPaymentMethod] = useState('stripe');
+
+  useEffect(() => {
+    if (!user) {
+      history.push('/login');
+    } else if (!cart?.shippingAddress) {
+      history.push('/shipping');
+    }
+  }, [history, user, cart]);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch(savePaymentMethod(paymentMethod));
+    history.push('/placeorder');
+  };
+
   return (
     <>
       <CheckoutSteps step1 step2 />
@@ -9,15 +30,29 @@ const PaymentScreen = ({ history }) => {
         <div className='lg:col-span-2 '>
           <h2 className='text-2xl text-gray-600 mb-5'>Payment Method</h2>
           <div className='border-2 border-gray-200 rounded-md p-8'>
-            <form className='space-y-3'>
+            <form className='space-y-3' {...{ onSubmit }}>
               <div className='flex items-center space-x-3'>
-                <input checked type='radio' name='payment' id='stripe' />
+                <input
+                  checked={paymentMethod === 'stripe'}
+                  type='radio'
+                  name='payment'
+                  id='stripe'
+                  value='stripe'
+                  onChange={e => setPaymentMethod(e.target.value)}
+                />
                 <label className='cursor-pointer' htmlFor='stripe'>
                   Stripe Payment
                 </label>
               </div>
               <div className='flex items-center space-x-3'>
-                <input type='radio' name='payment' id='cashOnDelivery' />
+                <input
+                  type='radio'
+                  name='payment'
+                  id='cashOnDelivery'
+                  value='cashOnDelivery'
+                  checked={paymentMethod === 'cashOnDelivery'}
+                  onChange={e => setPaymentMethod(e.target.value)}
+                />
                 <label className='cursor-pointer' htmlFor='cashOnDelivery'>
                   Cash on Delivery
                 </label>
@@ -31,12 +66,21 @@ const PaymentScreen = ({ history }) => {
               Order Summary
             </h2>
             <div className='flex justify-between items-center border-b-2 border-dashed pb-5'>
-              <h4 className='text-md text-gray-600'>Sub-total (5) Items</h4>
-              <span className='text-base text-gray-600'>$50.55</span>
+              <h4 className='text-md text-gray-600'>
+                Sub-total (
+                {cart?.cartItems?.reduce((acc, item) => acc + item.quantity, 0)}
+                ) Items
+              </h4>
+              <span className='text-base text-gray-600'>
+                $
+                {cart?.cartItems
+                  ?.reduce((acc, item) => acc + item.quantity * item.price, 0)
+                  .toFixed(2)}
+              </span>
             </div>
             <button
               className='w-full mt-5 bg-purple-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 transition-shadow duration-300'
-              onClick={() => history.push('/placeorder')}
+              onClick={onSubmit}
             >
               Continue
             </button>

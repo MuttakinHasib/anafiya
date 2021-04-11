@@ -22,7 +22,7 @@ import {
 // User Logout Action
 
 export const logout = () => dispatch => {
-  localStorage.removeItem('userInfo');
+  localStorage.removeItem('anafiya_userInfo');
   dispatch({ type: USER_LOGOUT });
 };
 
@@ -44,7 +44,7 @@ export const login = (email, password) => async dispatch => {
     );
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     toast.success('Logged in successfully');
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    localStorage.setItem('anafiya_userInfo', JSON.stringify(data));
   } catch (err) {
     const error =
       err.response && err.response.data.message
@@ -102,7 +102,7 @@ export const userActivation = token => async dispatch => {
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     toast.success('User activation successful');
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    localStorage.setItem('anafiya_userInfo', JSON.stringify(data));
   } catch (err) {
     const error =
       err.response && err.response.data.message
@@ -132,7 +132,7 @@ export const googleSignIn = token => async dispatch => {
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     toast.success('Logged in with Google');
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    localStorage.setItem('anafiya_userInfo', JSON.stringify(data));
   } catch (err) {
     const error =
       err.response && err.response.data.message
@@ -166,7 +166,7 @@ export const facebookSignIn = token => async dispatch => {
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     toast.success('Logged in with Facebook');
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
+    localStorage.setItem('anafiya_userInfo', JSON.stringify(data));
   } catch (err) {
     const error =
       err.response && err.response.data.message

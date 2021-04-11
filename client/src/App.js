@@ -7,14 +7,15 @@ import {
   CartScreen,
   HomeScreen,
   LoginScreen,
-  OrderScreen,
+  OrderPlacedScreen,
+  PaymentScreen,
   PlaceOrderScreen,
   ProductScreen,
   RegisterScreen,
   ShippingScreen,
   UserActivationScreen,
+  OrderScreen,
 } from './screens';
-import PaymentScreen from './screens/PaymentScreen';
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
             <Route exact path='/payment' component={PaymentScreen} />
             <Route exact path='/placeorder' component={PlaceOrderScreen} />
             <Route exact path='/order/:id' component={OrderScreen} />
+            <Route
+              exact
+              path='/order/:id/success'
+              component={OrderPlacedScreen}
+            />
             <Route exact path='/register' component={RegisterScreen} />
             <Route
               exact

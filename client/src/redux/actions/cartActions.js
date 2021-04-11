@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from './types';
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_RESET,
+  CART_SAVE_PAYMENT_METHOD,
+  CART_SAVE_SHIPPING_ADDRESS,
+} from './types';
 
 export const addToCart = (id, quantity) => async (dispatch, getState) => {
   try {
@@ -17,7 +23,7 @@ export const addToCart = (id, quantity) => async (dispatch, getState) => {
     });
 
     localStorage.setItem(
-      'cartItems',
+      'anafiya_cartItems',
       JSON.stringify(getState().cart.cartItems)
     );
   } catch (err) {
@@ -33,9 +39,45 @@ export const removeCartItem = id => async (dispatch, getState) => {
     });
 
     localStorage.setItem(
-      'cartItems',
+      'anafiya_cartItems',
       JSON.stringify(getState().cart.cartItems)
     );
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const saveShippingAddress = data => async dispatch => {
+  try {
+    dispatch({
+      type: CART_SAVE_SHIPPING_ADDRESS,
+      payload: data,
+    });
+
+    localStorage.setItem('anafiya_shippingAddress', JSON.stringify(data));
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const savePaymentMethod = data => async dispatch => {
+  try {
+    dispatch({
+      type: CART_SAVE_PAYMENT_METHOD,
+      payload: data,
+    });
+
+    localStorage.setItem('anafiya_paymentMethod', JSON.stringify(data));
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export const cartReset = () => dispatch => {
+  try {
+    dispatch({ type: CART_RESET });
+
+    localStorage.removeItem('anafiya_cartItems');
   } catch (err) {
     console.error(err.message);
   }

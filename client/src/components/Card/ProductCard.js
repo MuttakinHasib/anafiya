@@ -1,4 +1,5 @@
 import React from 'react';
+import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../../redux/actions/cartActions';
@@ -31,7 +32,15 @@ const ProductCard = ({ product }) => {
         <button
           className='text-blue-900 hover:underline focus:outline-none font-semibold flex items-center space-x-2'
           title='Add to cart'
-          onClick={() => dispatch(addToCart(product?._id, 1))}
+          // disabled={product?.countInStock === 0}
+          onClick={() => {
+            if (product?.countInStock === 0) {
+              toast.error('Out of stock');
+            } else {
+              dispatch(addToCart(product?._id, 1));
+              toast.success('Added to cart');
+            }
+          }}
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'

@@ -1,61 +1,72 @@
 import mongoose from 'mongoose';
 
-const reviewSchema = new mongoose.Schema(
+const orderSchema = mongoose.Schema(
   {
     user: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User',
     },
-    name: {
+    orderItems: [
+      {
+        name: { type: String, required: true },
+        image: { type: String, required: true },
+        price: { type: String, required: true },
+        quantity: { type: String, required: true },
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Product',
+        },
+      },
+    ],
+    shippingAddress: {
+      name: { type: String, required: true },
+      address: { type: String, required: true },
+      phone: { type: String, required: true },
+      email: { type: String, required: true },
+      city: { type: String, required: true },
+      postcode: { type: String, required: true },
+      country: { type: String, required: true },
+    },
+    paymentMethod: {
       type: String,
       required: true,
     },
-    avatar: {
-      type: String,
-      required: true,
-      default:
-        'https://res.cloudinary.com/muttakinhasib/image/upload/v1611336104/avatar/user_qcrqny.svg',
+    paymentResult: {
+      id: { type: String },
+      status: { type: String },
+      update_time: { type: String },
+      email_address: { type: String },
     },
-    rating: { type: Number, required: true },
-    comment: { type: String, required: true },
-  },
-  { timestamps: true }
-);
-
-const orderSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    image: { type: String, required: true },
-    brand: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
-    reviews: [reviewSchema],
-    rating: {
+    itemsPrice: {
       type: Number,
-      require: true,
-      default: 0,
+      required: true,
+      default: 0.0,
     },
-    numReviews: { type: Number, default: 0 },
-    price: { type: Number, required: true, default: 0 },
-    countInStock: { type: Number, required: true, default: 0 },
+    taxPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    shippingPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    isPaid: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    paidAt: { type: Date },
+    isDelivered: { type: Boolean, required: true, default: false },
+    deliveredAt: { type: Date },
   },
   {
     timestamps: true,

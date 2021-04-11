@@ -1,5 +1,11 @@
 import { combineReducers } from 'redux';
 import { cartReducer } from './cartReducers';
+import {
+  orderCreateReducer,
+  orderDetailsReducer,
+  orderPayReducer,
+  stripePaymentReducer,
+} from './orderReducers';
 import { productDetailsReducer, productListReducer } from './productReducers';
 import {
   userActivationReducer,
@@ -18,4 +24,8 @@ export default combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   cart: cartReducer,
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
+  orderPay: orderPayReducer,
+  stripePayment: stripePaymentReducer,
 });

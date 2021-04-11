@@ -54,9 +54,9 @@ const CartScreen = ({ history, match, location }) => {
                 {item?.name}
               </Link>
               <div className='lg:w-32 lg:text-center'>${item?.price}</div>
-              <div>
+              {/* <div className='w-full'> */}
                 <select
-                  className='w-1/2 lg:w-24 tex-sm h-9 border-none bg-gray-100 rounded-md focus:ring-purple-100'
+                  className='w-1/2 md:w-20 lg:w-24 tex-sm h-9 border-none bg-gray-100 rounded-md focus:ring-purple-100'
                   name='quantity'
                   id='quantity'
                   value={item?.quantity}
@@ -70,7 +70,7 @@ const CartScreen = ({ history, match, location }) => {
                     </option>
                   ))}
                 </select>
-              </div>
+              {/* </div> */}
               <button
                 className='w-14 lg:w-16 bg-red-500 hover:bg-red-600 transition-colors duration-300 py-1 rounded-md text-white'
                 onClick={() => dispatch(removeCartItem(item?.product))}

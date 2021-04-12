@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Header } from './components';
 import Container from './components/Container';
@@ -15,6 +15,10 @@ import {
   ShippingScreen,
   UserActivationScreen,
   OrderScreen,
+  ProfileScreen,
+  UserInfoScreen,
+  ChangePasswordScreen,
+  UserOrderListScreen,
 } from './screens';
 
 function App() {
@@ -28,27 +32,33 @@ function App() {
       />
       <main>
         <Container>
-          <Switch>
-            <Route exact path='/' component={HomeScreen} />
-            <Route exact path='/product/:id' component={ProductScreen} />
-            <Route exact path='/cart/:id?' component={CartScreen} />
-            <Route exact path='/shipping' component={ShippingScreen} />
-            <Route exact path='/payment' component={PaymentScreen} />
-            <Route exact path='/placeorder' component={PlaceOrderScreen} />
-            <Route exact path='/order/:id' component={OrderScreen} />
+          <Routes>
+            <Route path='/' element={<HomeScreen />} />
+            <Route path='product/:id' element={<ProductScreen />} />
+            <Route path='cart' element={<CartScreen />}>
+              <Route path='/:id' element={<CartScreen />} />
+            </Route>
+            <Route path='shipping' element={<ShippingScreen />} />
+            <Route path='payment' element={<PaymentScreen />} />
+            <Route path='placeorder' element={<PlaceOrderScreen />} />
+            <Route path='order' element={<OrderScreen />} />
+            <Route path='order/:id' element={<OrderScreen />} />
+            <Route path='order/:id/success' element={<OrderPlacedScreen />} />
+            <Route path='register' element={<RegisterScreen />} />
             <Route
-              exact
-              path='/order/:id/success'
-              component={OrderPlacedScreen}
+              path='user/active/:token'
+              element={<UserActivationScreen />}
             />
-            <Route exact path='/register' component={RegisterScreen} />
-            <Route
-              exact
-              path='/user/active/:token'
-              component={UserActivationScreen}
-            />
-            <Route exact path='/login' component={LoginScreen} />
-          </Switch>
+            <Route path='login' element={<LoginScreen />} />
+            <Route path='profile' element={<ProfileScreen />}>
+              <Route path='/' element={<UserInfoScreen />} />
+              <Route path='/orderlist' element={<UserOrderListScreen />} />
+              <Route
+                path='/change-password'
+                element={<ChangePasswordScreen />}
+              />
+            </Route>
+          </Routes>
         </Container>
       </main>
     </Router>

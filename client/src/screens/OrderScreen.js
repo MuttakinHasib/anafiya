@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
 import { Alert } from '../components';
 import Loader from '../components/Loader';
@@ -10,9 +10,12 @@ import {
   stripePayment,
 } from '../redux/actions/orderActions';
 
-const OrderScreen = ({ history, match }) => {
-  const orderId = match.params.id;
+const OrderScreen = () => {
+  const params = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const orderId = params.id;
 
   const { user } = useSelector(state => state.userLogin);
   const { order, loading } = useSelector(state => state.orderDetails);
@@ -23,21 +26,21 @@ const OrderScreen = ({ history, match }) => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/login');
+      navigate('/login');
     } else {
       if (stripePaymentSuccess) {
         dispatch(orderPaid(orderId, paymentResult));
       }
       dispatch(orderDetails(orderId));
     }
-  }, [dispatch, user, history, stripePaymentSuccess, paymentResult, orderId]);
+  }, [dispatch, user, navigate, stripePaymentSuccess, paymentResult, orderId]);
 
   useEffect(() => {
     if (orderPaidSuccess) {
       dispatch(orderDetails(orderId));
-      history.push(`/order/${orderId}/success`);
+      navigate(`/order/${orderId}/success`);
     }
-  }, [dispatch, orderId, orderPaidSuccess, history]);
+  }, [dispatch, orderId, orderPaidSuccess, navigate]);
   // useEffect(() => {}, []);
   const onToken = async token => {
     try {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -11,7 +11,8 @@ import {
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
 
-const RegisterScreen = ({ history }) => {
+const RegisterScreen = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector(({ userLogin }) => userLogin);
 
@@ -53,14 +54,14 @@ const RegisterScreen = ({ history }) => {
 
   useEffect(() => {
     if (user) {
-      history.push('/');
+      navigate('/');
     }
-  }, [user, history]);
+  }, [user, navigate]);
 
   return (
     <div className='grid gap-15 md:grid-cols-2 mt-20'>
       <div className='m-auto'>
-        <h2 className='text-5xl leading-tight font-semibold text-gray-700'>
+        <h2 className='text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-gray-700'>
           Get started <br /> With a free Account
         </h2>
         <p className='prose mt-5 text-gray-500'>
@@ -71,12 +72,12 @@ const RegisterScreen = ({ history }) => {
           </Link>
         </p>
       </div>
-      <div className='max-w-lg ml-auto'>
+      <div className='max-w-full sm:max-w-lg mx-auto md:ml-auto'>
         <form
-          className='space-y-5 border-0 border-dashed border-gray-100 p-10'
+          className='space-y-3 sm:space-y-5 border-0 border-dashed border-gray-100 p-10'
           {...{ onSubmit }}
         >
-          <div className='flex items-center space-x-5'>
+          <div className='flex sm:flex-row flex-col items-center space-y-3 sm:space-y-0 sm:space-x-5'>
             <input
               type='text'
               name='firstName'
@@ -104,7 +105,7 @@ const RegisterScreen = ({ history }) => {
             value={email}
             {...{ onChange }}
           />
-          <div className='flex items-center space-x-5'>
+          <div className='flex sm:flex-row flex-col items-center space-y-3 sm:space-y-0 sm:space-x-5'>
             <input
               type='password'
               className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
@@ -136,7 +137,7 @@ const RegisterScreen = ({ history }) => {
             </p>
             <div style={{ height: '1px' }} className='w-full bg-gray-300'></div>
           </div>
-          <div className='flex items-center space-x-5'>
+          <div className='flex sm:flex-row flex-col items-center space-y-3 sm:space-y-0 sm:space-x-5'>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={renderProps => (

@@ -7,6 +7,11 @@ export { default as PaymentScreen } from './PaymentScreen';
 export { default as OrderScreen } from './OrderScreen';
 export { default as OrderPlacedScreen } from './OrderPlacedScreen';
 
+export { default as ProfileScreen } from './ProfileScreen';
+export { default as UserInfoScreen } from './UserInfoScreen';
+export { default as UserOrderListScreen } from './UserOrderListScreen';
+export { default as ChangePasswordScreen } from './ChangePasswordScreen';
+
 export { default as RegisterScreen } from './RegisterScreen';
 export { default as UserActivationScreen } from './UserActivationScreen';
 export { default as LoginScreen } from './LoginScreen';

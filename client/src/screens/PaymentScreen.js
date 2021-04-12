@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { CheckoutSteps } from '../components';
 import { savePaymentMethod } from '../redux/actions/cartActions';
 
-const PaymentScreen = ({ history }) => {
+const PaymentScreen = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
   const { user } = useSelector(state => state.userLogin);
@@ -11,16 +13,16 @@ const PaymentScreen = ({ history }) => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/login');
+      navigate('/login');
     } else if (!cart?.shippingAddress) {
-      history.push('/shipping');
+      navigate('/shipping');
     }
-  }, [history, user, cart]);
+  }, [navigate, user, cart]);
 
   const onSubmit = e => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
-    history.push('/placeorder');
+    navigate('/placeorder');
   };
 
   return (

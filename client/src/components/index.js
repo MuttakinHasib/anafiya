@@ -4,3 +4,4 @@ export { default as Rating } from './Rating';
 export { default as StockAlert } from './StockAlert';
 export { default as CheckoutSteps } from './CheckoutSteps';
 export { default as Alert } from './Alert';
+export { default as NavLink } from './NavLink';

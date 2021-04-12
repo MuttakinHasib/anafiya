@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import emptyCartImg from '../assets/empty-cart.svg';
 import Loader from '../components/Loader';
 import { addToCart, removeCartItem } from '../redux/actions/cartActions';
 
-const CartScreen = ({ history, match, location }) => {
+const CartScreen = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const params = useParams();
   const dispatch = useDispatch();
-  const productId = match.params.id;
+  const productId = params.id;
   const quantity = location.search ? Number(location.search.split('=')[1]) : 1;
   const { cartItems, loading: cartLoading, error: cartError } = useSelector(
     state => state.cart
@@ -42,11 +45,7 @@ const CartScreen = ({ history, match, location }) => {
         <div className='lg:col-span-2 overflow-auto divide-y-2'>
           {cartItems?.map(item => (
             <div className='flex md:flex-row flex-col md:justify-between md:items-center md:space-x-8 space-y-3 py-3 pb-4'>
-              <img
-                className='sm:w-2/3 mx-auto md:w-20'
-                src={item?.image}
-                alt=''
-              />
+              <img className='w-2/3 mx-auto md:w-20' src={item?.image} alt='' />
               <Link
                 to={`/product/${item?.product}`}
                 className='text-lg text-gray-700 hover:underline flex-1'
@@ -55,21 +54,21 @@ const CartScreen = ({ history, match, location }) => {
               </Link>
               <div className='lg:w-32 lg:text-center'>${item?.price}</div>
               {/* <div className='w-full'> */}
-                <select
-                  className='w-1/2 md:w-20 lg:w-24 tex-sm h-9 border-none bg-gray-100 rounded-md focus:ring-purple-100'
-                  name='quantity'
-                  id='quantity'
-                  value={item?.quantity}
-                  onChange={e =>
-                    dispatch(addToCart(item?.product, Number(e.target.value)))
-                  }
-                >
-                  {[...Array(item?.countInStock).keys()].map(x => (
-                    <option value={x + 1} key={x + 1}>
-                      {x + 1}
-                    </option>
-                  ))}
-                </select>
+              <select
+                className='w-1/2 md:w-20 lg:w-24 tex-sm h-9 border-none bg-gray-100 rounded-md focus:ring-purple-100'
+                name='quantity'
+                id='quantity'
+                value={item?.quantity}
+                onChange={e =>
+                  dispatch(addToCart(item?.product, Number(e.target.value)))
+                }
+              >
+                {[...Array(item?.countInStock).keys()].map(x => (
+                  <option value={x + 1} key={x + 1}>
+                    {x + 1}
+                  </option>
+                ))}
+              </select>
               {/* </div> */}
               <button
                 className='w-14 lg:w-16 bg-red-500 hover:bg-red-600 transition-colors duration-300 py-1 rounded-md text-white'
@@ -116,7 +115,7 @@ const CartScreen = ({ history, match, location }) => {
                 cartItems?.length === 0 && 'opacity-50 pointer-events-none'
               } w-full mt-5 bg-purple-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 transition-shadow duration-300`}
               disabled={cartItems?.length === 0}
-              onClick={() => history.push('/shipping')}
+              onClick={() => navigate('/shipping')}
             >
               Proceed to checkout
             </button>

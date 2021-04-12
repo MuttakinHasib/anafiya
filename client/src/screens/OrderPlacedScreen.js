@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 import checkIcon from '../assets/check-icon.svg';
 import Loader from '../components/Loader';
 import { orderDetails } from '../redux/actions/orderActions';
 
-const OrderPlacedScreen = ({ match, history }) => {
-  const orderId = match.params.id;
+const OrderPlacedScreen = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+  const orderId = params.id;
   const dispatch = useDispatch();
   const { order, loading } = useSelector(state => state.orderDetails);
 

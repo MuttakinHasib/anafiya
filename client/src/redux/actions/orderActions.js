@@ -13,6 +13,9 @@ import {
   STRIPE_PAYMENT_FAIL,
   STRIPE_PAYMENT_REQUEST,
   STRIPE_PAYMENT_SUCCESS,
+  USER_ORDERS_LIST_FAIL,
+  USER_ORDERS_LIST_REQUEST,
+  USER_ORDERS_LIST_SUCCESS,
 } from './types';
 
 export const createOrder = order => async (dispatch, getState) => {
@@ -119,6 +122,33 @@ export const orderPaid = (orderId, paymentResult) => async (
         : err.message;
     dispatch({
       type: ORDER_PAY_FAIL,
+      payload: error,
+    });
+  }
+};
+
+export const getUserOrdersList = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_ORDERS_LIST_REQUEST });
+    const { user } = getState().userLogin;
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/userOrders`, config);
+    
+    dispatch({ type: USER_ORDERS_LIST_SUCCESS, payload: data });
+  } catch (err) {
+    const error =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message;
+    dispatch({
+      type: USER_ORDERS_LIST_FAIL,
       payload: error,
     });
   }

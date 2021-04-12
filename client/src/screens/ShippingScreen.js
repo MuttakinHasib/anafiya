@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 // import { Link } from 'react-router-dom';
 import { CheckoutSteps } from '../components';
 import { saveShippingAddress } from '../redux/actions/cartActions';
 
-const ShippingScreen = ({ history }) => {
+const ShippingScreen = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
   const { user } = useSelector(state => state.userLogin);
@@ -21,9 +23,9 @@ const ShippingScreen = ({ history }) => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/login');
+      navigate('/login');
     }
-  }, [user, history]);
+  }, [user, navigate]);
 
   const onChange = e =>
     setShippingAddress({ ...shippingAddress, [e.target.name]: e.target.value });
@@ -42,7 +44,7 @@ const ShippingScreen = ({ history }) => {
       return;
     }
     dispatch(saveShippingAddress(shippingAddress));
-    history.push('/payment');
+    navigate('/payment');
   };
   return (
     <>

@@ -5,6 +5,7 @@ import {
   orderDetailsReducer,
   orderPayReducer,
   stripePaymentReducer,
+  userOrdersListReducer,
 } from './orderReducers';
 import { productDetailsReducer, productListReducer } from './productReducers';
 import {
@@ -21,6 +22,7 @@ export default combineReducers({
   userActivation: userActivationReducer,
   userGoogleLogin: userGoogleLoginReducer,
   userFacebookLogin: userFacebookLoginReducer,
+  userOrdersList: userOrdersListReducer,
   productList: productListReducer,
   productDetails: productDetailsReducer,
   cart: cartReducer,

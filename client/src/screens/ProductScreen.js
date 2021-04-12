@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 import { Rating, StockAlert } from '../components';
 import Loader from '../components/Loader';
 import { addToCart } from '../redux/actions/cartActions';
 import { getProductDetails } from '../redux/actions/productActions';
 
-const ProductScreen = ({ match, history }) => {
+const ProductScreen = () => {
+  const params = useParams();
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const productId = match.params.id;
+  const productId = params.id;
   const dispatch = useDispatch();
   const { product, loading } = useSelector(state => state.productDetails);
 
@@ -18,7 +21,7 @@ const ProductScreen = ({ match, history }) => {
 
   const addToCartHandler = () => {
     dispatch(addToCart(productId, quantity));
-    history.push(`/cart/${productId}?qty=${quantity}`);
+    navigate(`/cart/${productId}?qty=${quantity}`);
   };
 
   return (

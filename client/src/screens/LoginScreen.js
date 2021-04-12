@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   facebookSignIn,
@@ -11,7 +11,8 @@ import {
 } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
 
-const LoginScreen = ({ history }) => {
+const LoginScreen = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, loading: loginLoading } = useSelector(
     ({ userLogin }) => userLogin
@@ -39,16 +40,16 @@ const LoginScreen = ({ history }) => {
 
   useEffect(() => {
     if (user) {
-      history.push('/');
+      navigate('/');
     }
-  }, [user, history]);
+  }, [user, navigate]);
 
   // loginError && toast.error(loginError);
   return (
     <div className='grid gap-15 md:grid-cols-2 mt-20'>
       {loginLoading && <Loader />}
       <div className='m-auto'>
-        <h2 className='text-5xl leading-tight font-semibold text-gray-700'>
+        <h2 className='text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-gray-700'>
           Assalamualaikom
           <br /> Welcome Back
         </h2>
@@ -60,7 +61,7 @@ const LoginScreen = ({ history }) => {
           </Link>
         </p>
       </div>
-      <div className='max-w-lg ml-auto'>
+      <div className='max-w-full sm:max-w-lg mx-auto md:ml-auto'>
         <form
           className='space-y-5 border-0 border-dashed border-gray-100 p-10'
           {...{ onSubmit }}
@@ -95,7 +96,7 @@ const LoginScreen = ({ history }) => {
             </p>
             <div style={{ height: '1px' }} className='w-full bg-gray-300'></div>
           </div>
-          <div className='flex items-center space-x-5'>
+          <div className='flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-5'>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={renderProps => (

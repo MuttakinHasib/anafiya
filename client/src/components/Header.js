@@ -17,7 +17,7 @@ const Header = () => {
     <nav className='sticky top-0 z-50 border-b bg-white'>
       <div className='max-w-7xl mx-auto px-6 lg:px-8'>
         <div className='relative flex items-center justify-between h-16'>
-          <div className='absolute inset-y-0 right-0 flex items-center md:hidden space-x-3'>
+          <div className='absolute inset-y-0 right-0 flex items-center md:hidden space-x-1'>
             <form className='hidden sm:block'>
               <div className='relative'>
                 <input
@@ -41,61 +41,141 @@ const Header = () => {
                 </svg>
               </div>
             </form>
-
-            {/* Mobile menu button*/}
             <button
               type='button'
-              className='inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
+              className='inline-flex sm:hidden items-center justify-center p-2 rounded-full border border-gray-100 hover:bg-gray-100 transition-colors duration-300'
               aria-controls='mobile-menu'
               aria-expanded='false'
               onClick={() => setOpenMenu(!openMenu)}
             >
-              <span className='sr-only'>Open main menu</span>
-              {/*
-                Icon when menu is closed.
-    
-                Heroicon name: outline/menu
-    
-                Menu open: "hidden", Menu closed: "block"
-              */}
               <svg
-                className='block h-6 w-6'
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
-                aria-hidden='true'
+                className='w-5 text-gray-600'
               >
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M4 6h16M4 12h16M4 18h16'
-                />
-              </svg>
-              {/*
-                Icon when menu is open.
-    
-                Heroicon name: outline/x
-    
-                Menu open: "block", Menu closed: "hidden"
-              */}
-              <svg
-                className='hidden h-6 w-6'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                aria-hidden='true'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M6 18L18 6M6 6l12 12'
+                  strokeWidth={2}
+                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
                 />
               </svg>
             </button>
+            <Link to='/cart' className='relative'>
+              <button className='focus:outline-none hover:opacity-80 px-3 py-2 mr-2 text-gray-700'>
+                <svg
+                  className='w-8'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
+                  />
+                </svg>
+              </button>
+              {cartItems.length > 0 && (
+                <div className='absolute top-0 -right-0 bg-red-500 px-2 h-5 flex justify-center items-center text-xs md:text-sm rounded-full text-white'>
+                  {cartItems.length}
+                </div>
+              )}
+            </Link>
+
+            <div className='relative'>
+              <div>
+                <button
+                  className='flex text-sm rounded-full focus:outline-none items-center'
+                  id='user-menu'
+                  aria-haspopup='true'
+                  onClick={() => setIsOpen(prev => !prev)}
+                >
+                  <span className='sr-only'>Open user menu</span>
+                  <img
+                    className='h-8 w-8 rounded-full'
+                    src={
+                      user?.avatar ||
+                      'https://res.cloudinary.com/muttakinhasib/image/upload/v1611336104/avatar/user_qcrqny.svg'
+                    }
+                    alt=''
+                  />
+                </button>
+              </div>
+
+              <Transition
+                show={isOpen}
+                enter='transition ease-out duration-100'
+                enterFrom='transform opacity-0 scale-95'
+                enterTo='transform opacity-100 scale-100'
+                leave='transition ease-in duration-75'
+                leaveFrom='transform opacity-100 scale-100'
+                leaveTo='transform opacity-0 scale-95'
+              >
+                <div
+                  ref={innerRef}
+                  className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5'
+                  role='menu'
+                  aria-orientation='vertical'
+                  aria-labelledby='user-menu'
+                >
+                  {!user ? (
+                    <>
+                      <Link to='/login'>
+                        <span
+                          className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                          role='menuitem'
+                          onClick={() => setIsOpen(false)}
+                        >
+                          Login
+                        </span>
+                      </Link>
+                      <Link
+                        to='/register'
+                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                        onClick={() => setIsOpen(false)}
+                        role='menuitem'
+                      >
+                        Register
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to='/profile'>
+                        <span
+                          className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                          role='menuitem'
+                          onClick={() => setIsOpen(false)}
+                        >
+                          Your Profile
+                        </span>
+                      </Link>
+                      <Link
+                        to='/settings'
+                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                        role='menuitem'
+                      >
+                        Settings
+                      </Link>
+                      <button
+                        className='flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                        role='menuitem'
+                        onClick={() => {
+                          dispatch(logout());
+                          setIsOpen(false);
+                        }}
+                      >
+                        Sign out
+                      </button>
+                    </>
+                  )}
+                </div>
+              </Transition>
+            </div>
           </div>
           <div className='flex items-center justify-center sm:items-stretch sm:justify-start'>
             <div className='flex-shrink-0 flex items-center'>
@@ -277,84 +357,6 @@ const Header = () => {
                 </svg>
               </div>
             </form>
-            {!user ? (
-              <div className='space-x-3 text-sm'>
-                <Link to='/cart'>
-                  <button className='border rounded-md px-5 py-2'>Cart</button>
-                </Link>
-                <Link to='/register'>
-                  <button className='bg-purple-600 text-white px-5 py-2 rounded-md'>
-                    Login
-                  </button>
-                </Link>
-              </div>
-            ) : (
-              <div className='relative'>
-                <div>
-                  <button
-                    className='flex text-sm rounded-full focus:outline-none items-center'
-                    id='user-menu'
-                    aria-haspopup='true'
-                    onClick={() => setIsOpen(prev => !prev)}
-                  >
-                    <span className='sr-only'>Open user menu</span>
-                    <img
-                      className='h-8 w-8 rounded-full'
-                      src={user?.avatar}
-                      alt=''
-                    />
-                    <span className='ml-3 text-gray-800 font-semibold'>
-                      {user?.firstName} {user?.lastName}
-                    </span>
-                  </button>
-                </div>
-
-                <Transition
-                  show={isOpen}
-                  enter='transition ease-out duration-100'
-                  enterFrom='transform opacity-0 scale-95'
-                  enterTo='transform opacity-100 scale-100'
-                  leave='transition ease-in duration-75'
-                  leaveFrom='transform opacity-100 scale-100'
-                  leaveTo='transform opacity-0 scale-95'
-                >
-                  <div
-                    ref={innerRef}
-                    className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5'
-                    role='menu'
-                    aria-orientation='vertical'
-                    aria-labelledby='user-menu'
-                  >
-                    <Link to='/profile'>
-                      <span
-                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                        role='menuitem'
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Your Profile
-                      </span>
-                    </Link>
-                    <a
-                      href='/'
-                      className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                      role='menuitem'
-                    >
-                      Settings
-                    </a>
-                    <button
-                      className='flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                      role='menuitem'
-                      onClick={() => {
-                        dispatch(logout());
-                        setIsOpen(false);
-                      }}
-                    >
-                      Sign out
-                    </button>
-                  </div>
-                </Transition>
-              </div>
-            )}
           </div>
         </div>
       </Transition>

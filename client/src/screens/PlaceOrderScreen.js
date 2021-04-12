@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CheckoutSteps } from '../components';
 import { cartReset } from '../redux/actions/cartActions';
 import { createOrder } from '../redux/actions/orderActions';
@@ -10,7 +10,8 @@ import {
   STRIPE_PAYMENT_RESET,
 } from '../redux/actions/types';
 
-const PlaceOrderScreen = ({ history, match }) => {
+const PlaceOrderScreen = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = useSelector(state => state.userLogin);
@@ -31,7 +32,7 @@ const PlaceOrderScreen = ({ history, match }) => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/login');
+      navigate('/login');
     } else {
       dispatch({ type: ORDER_CREATE_RESET });
       dispatch({ type: ORDER_PAY_RESET });
@@ -39,16 +40,16 @@ const PlaceOrderScreen = ({ history, match }) => {
       if (success) {
         dispatch(cartReset());
         if (order?.paymentMethod === 'cashOnDelivery') {
-          history.push(`/order/${order._id}/success`);
+          navigate(`/order/${order._id}/success`);
         } else {
-          history.push(`/order/${order._id}`);
+          navigate(`/order/${order._id}`);
         }
       } else if (cart?.cartItems.length === 0) {
-        history.push('/');
+        navigate('/');
       }
     }
     // eslint-disable-next-line
-  }, [dispatch, user, history, success, cart]);
+  }, [dispatch, user, navigate, success, cart]);
 
   const placeOrderHandler = () => {
     dispatch(

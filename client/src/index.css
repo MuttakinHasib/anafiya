@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+
 .loading svg {
   font-size: 5px;
   font-weight: bold;
@@ -29,4 +34,18 @@
   to {
     stroke-dashoffset: 234;
   }
+}
+.img-container {
+  transition: all 0.3s ease-in-out;
+}
+.img-overlay {
+  transition: all 0.3s ease-in-out;
+}
+.img-container:hover .img-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+.img-container:hover .upload-btn {
+  bottom: 0;
+  transition: all 0.3s ease-in-out;
 }

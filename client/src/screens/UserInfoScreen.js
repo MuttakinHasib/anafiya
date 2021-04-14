@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { userProfileUpdate } from '../redux/actions/userActions';
 
 const UserInfoScreen = () => {
+  const dispatch = useDispatch();
   const [disableEdit, setDisableEdit] = useState(true);
   const { user } = useSelector(state => state.userLogin);
 
@@ -10,12 +12,21 @@ const UserInfoScreen = () => {
     lastName: user?.lastName || '',
     email: user?.email || '',
   });
-
+  const { firstName, lastName, email } = state;
   const onChange = e => setState({ ...state, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch(userProfileUpdate({ firstName, lastName }));
+    setDisableEdit(true);
+  };
+
   return (
     <>
       <div className='flex items-center justify-between pb-3 border-b-2 mb-5'>
-        <h3 className='text-gray-800 text-xl'>Personal Information</h3>
+        <h3 className='text-gray-800 text-xl font-medium'>
+          Personal Information
+        </h3>
         {disableEdit && (
           <button
             className='text-purple-900 transition-colors duration-300 flex items-center'
@@ -35,16 +46,16 @@ const UserInfoScreen = () => {
                 d='M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z'
               />
             </svg>
-            &nbsp; Edit
+            &nbsp; <span>Edit</span>
           </button>
         )}
       </div>
       <div className='max-w-lg'>
-        <form className='space-y-3'>
+        <form className='space-y-3' {...{ onSubmit }}>
           <div className='flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-5'>
             <div className='w-full'>
               <label
-                for='firstName'
+                htmlFor='firstName'
                 className='font-semibold text-gray-700 block pb-2'
               >
                 First Name
@@ -55,20 +66,20 @@ const UserInfoScreen = () => {
                   id='firstName'
                   name='firstName'
                   className={
-                    'px-4 rounded-md bg-gray-100 w-full' +
+                    'text-gray-600 px-4 rounded-md bg-gray-100 w-full' +
                     (!disableEdit ? ' border-gray-300' : ' border-transparent')
                   }
                   type='text'
-                  value={state.firstName}
+                  value={firstName}
                   placeholder='Enter first name'
                   {...{ onChange }}
                 />
               </div>
             </div>
-            {user?.lastName && (
+            {(user?.lastName || !disableEdit) && (
               <div className='w-full'>
                 <label
-                  for='lastName'
+                  htmlFor='lastName'
                   className='font-semibold text-gray-700 block pb-2'
                 >
                   Last Name
@@ -79,13 +90,13 @@ const UserInfoScreen = () => {
                     id='lastName'
                     name='lastName'
                     className={
-                      'px-4 rounded-md bg-gray-100 w-full' +
+                      'text-gray-600 px-4 rounded-md bg-gray-100 w-full' +
                       (!disableEdit
                         ? ' border-gray-300'
                         : ' border-transparent')
                     }
                     type='text'
-                    value={state.lastName}
+                    value={lastName}
                     placeholder='Enter last name'
                     {...{ onChange }}
                   />
@@ -95,7 +106,7 @@ const UserInfoScreen = () => {
           </div>
           <div>
             <label
-              for='email'
+              htmlFor='email'
               className='font-semibold text-gray-700 block pb-2'
             >
               E-mail Address
@@ -106,10 +117,10 @@ const UserInfoScreen = () => {
                 id='email'
                 name='email'
                 className={
-                  'px-4 rounded-md text-gray-500 bg-gray-100 w-full border-none'
+                  'text-gray-600 px-4 rounded-md text-gray-500 bg-gray-100 w-full border-none'
                 }
                 type='email'
-                value={state.email}
+                value={email}
                 placeholder='Enter email address'
                 {...{ onChange }}
               />

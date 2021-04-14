@@ -64,9 +64,7 @@ const PlaceOrderScreen = () => {
       })
     );
   };
-
-  const onToken = token => {};
-
+  
   return (
     <>
       <CheckoutSteps step1 step2 step3 />

@@ -3,6 +3,10 @@ import {
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_RESET,
   ORDER_CREATE_SUCCESS,
+  ORDER_DELIVERED_FAIL,
+  ORDER_DELIVERED_REQUEST,
+  ORDER_DELIVERED_RESET,
+  ORDER_DELIVERED_SUCCESS,
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_RESET,
@@ -96,6 +100,26 @@ export const orderPayReducer = (state = {}, action) => {
     case ORDER_PAY_FAIL:
       return { loading: false, error: action.payload };
     case ORDER_PAY_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const orderDeliveredReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_DELIVERED_REQUEST:
+      return { loading: true };
+    case ORDER_DELIVERED_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        success: true,
+      };
+    case ORDER_DELIVERED_FAIL:
+      return { loading: false, error: action.payload };
+    case ORDER_DELIVERED_RESET:
       return {};
 
     default:

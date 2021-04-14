@@ -19,6 +19,10 @@ import {
   UserInfoScreen,
   ChangePasswordScreen,
   UserOrderListScreen,
+  UserAddressScreen,
+  UserListScreen,
+  UserEditScreen,
+  ProductListScreen,
 } from './screens';
 
 function App() {
@@ -52,6 +56,10 @@ function App() {
             <Route path='login' element={<LoginScreen />} />
             <Route path='profile' element={<ProfileScreen />}>
               <Route path='/' element={<UserInfoScreen />} />
+              <Route path='/address' element={<UserAddressScreen />} />
+              <Route path='/users' element={<UserListScreen />} />
+              <Route path='/users/:id' element={<UserEditScreen />} />
+              <Route path='/products' element={<ProductListScreen />} />
               <Route path='/orderlist' element={<UserOrderListScreen />} />
               <Route
                 path='/change-password'

@@ -5,10 +5,16 @@ import StripeCheckout from 'react-stripe-checkout';
 import { Alert } from '../components';
 import Loader from '../components/Loader';
 import {
+  orderDelivered,
   orderDetails,
   orderPaid,
   stripePayment,
 } from '../redux/actions/orderActions';
+import {
+  ORDER_DETAILS_RESET,
+  ORDER_PAY_RESET,
+  STRIPE_PAYMENT_RESET,
+} from '../redux/actions/types';
 
 const OrderScreen = () => {
   const params = useParams();
@@ -23,8 +29,13 @@ const OrderScreen = () => {
     state => state.stripePayment
   );
   const { success: orderPaidSuccess } = useSelector(state => state.orderPay);
+  const { success: orderDeliveredSuccess } = useSelector(
+    state => state.orderDelivered
+  );
 
   useEffect(() => {
+    dispatch({ type: ORDER_DETAILS_RESET });
+    dispatch({ type: STRIPE_PAYMENT_RESET });
     if (!user) {
       navigate('/login');
     } else {
@@ -36,11 +47,15 @@ const OrderScreen = () => {
   }, [dispatch, user, navigate, stripePaymentSuccess, paymentResult, orderId]);
 
   useEffect(() => {
+    dispatch({ type: ORDER_PAY_RESET });
     if (orderPaidSuccess) {
       dispatch(orderDetails(orderId));
       navigate(`/order/${orderId}/success`);
     }
-  }, [dispatch, orderId, orderPaidSuccess, navigate]);
+    if (orderDeliveredSuccess) {
+      dispatch(orderDetails(orderId));
+    }
+  }, [dispatch, orderId, orderPaidSuccess, orderDeliveredSuccess, navigate]);
   // useEffect(() => {}, []);
   const onToken = async token => {
     try {
@@ -53,6 +68,10 @@ const OrderScreen = () => {
     } catch (err) {
       console.error(err.message);
     }
+  };
+
+  const orderDeliveryHandler = () => {
+    dispatch(orderDelivered(orderId));
   };
 
   return loading ? (
@@ -181,6 +200,14 @@ const OrderScreen = () => {
                 </span>
               </div>
             </div>
+            {user?.isAdmin && !order?.isDelivered && (
+              <button
+                className='w-full mt-5 bg-purple-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 transition-shadow duration-300'
+                onClick={orderDeliveryHandler}
+              >
+                Mark as delivered
+              </button>
+            )}
             {!order?.isPaid && order?.user === user._id && (
               <div className='mt-5 border-t-2 border-dashed pt-5'>
                 <StripeCheckout

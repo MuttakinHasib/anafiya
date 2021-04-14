@@ -24,7 +24,7 @@ const UserInfoScreen = () => {
   return (
     <>
       <div className='flex items-center justify-between pb-3 border-b-2 mb-5'>
-        <h3 className='text-gray-800 text-xl font-medium'>
+        <h3 className='text-gray-800 text-2xl font-medium'>
           Personal Information
         </h3>
         {disableEdit && (

@@ -154,13 +154,6 @@ const Header = () => {
                           Your Profile
                         </span>
                       </Link>
-                      <Link
-                        to='/settings'
-                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                        role='menuitem'
-                      >
-                        Settings
-                      </Link>
                       <button
                         className='flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                         role='menuitem'
@@ -292,13 +285,6 @@ const Header = () => {
                           Your Profile
                         </span>
                       </Link>
-                      <a
-                        href='/'
-                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                        role='menuitem'
-                      >
-                        Settings
-                      </a>
                       <button
                         className='flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                         role='menuitem'

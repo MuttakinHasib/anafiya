@@ -3,13 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Moment from 'react-moment';
-import { USER_DETAILS_RESET } from '../redux/actions/types';
-import {
-  getUserDetails,
-  getUserProfileDetails,
-  updateUser,
-  userProfileUpdate,
-} from '../redux/actions/userActions';
+
+import { getUserDetails, updateUser } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
 
 const UserEditScreen = () => {
@@ -84,7 +79,7 @@ const UserEditScreen = () => {
     <>
       {uploading && <Loader />}
       <div className='flex items-center justify-between pb-3 border-b-2 mb-5'>
-        <h3 className='text-gray-800 text-xl font-medium'>User Info</h3>
+        <h3 className='text-gray-800 text-xl font-medium'>User Information</h3>
         {disableEdit && (
           <button
             className='text-purple-900 transition-colors duration-300 flex items-center'

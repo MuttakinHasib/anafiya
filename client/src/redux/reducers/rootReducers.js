@@ -8,7 +8,13 @@ import {
   stripePaymentReducer,
   userOrdersListReducer,
 } from './orderReducers';
-import { productDetailsReducer, productListReducer } from './productReducers';
+import {
+  productCreateReducer,
+  productDeleteReducer,
+  productDetailsReducer,
+  productListReducer,
+  productUpdateReducer,
+} from './productReducers';
 import {
   userActivationReducer,
   userDeleteReducer,
@@ -38,6 +44,9 @@ export default combineReducers({
   userOrdersList: userOrdersListReducer,
   productList: productListReducer,
   productDetails: productDetailsReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
+  productDelete: productDeleteReducer,
   cart: cartReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,

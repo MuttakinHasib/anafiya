@@ -108,3 +108,13 @@ export const getUserOrders = asyncHandler(async (req, res) => {
     throw new Error('Order not found');
   }
 });
+
+export const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({});
+  if (orders) {
+    res.json(orders);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+});

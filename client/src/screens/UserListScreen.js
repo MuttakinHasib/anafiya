@@ -22,7 +22,7 @@ const UserListScreen = () => {
 
   return (
     <>
-      <h3 className='text-gray-800 text-xl pb-3 border-b-2 mb-5 font-medium'>
+      <h3 className='text-gray-800 text-2xl pb-3 border-b-2 mb-5 font-medium'>
         All users
       </h3>
       {users?.length === 0 ? (

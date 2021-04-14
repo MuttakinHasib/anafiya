@@ -5,7 +5,9 @@
 body {
   font-family: 'Ubuntu', sans-serif;
 }
-
+label:not(.upload-btn) {
+  color: #4b5563 !important;
+}
 .loading svg {
   font-size: 5px;
   font-weight: bold;

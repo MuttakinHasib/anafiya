@@ -13,6 +13,8 @@ export { default as UserAddressScreen } from './UserAddressScreen';
 export { default as UserListScreen } from './UserListScreen';
 export { default as UserEditScreen } from './UserEditScreen';
 export { default as ProductListScreen } from './ProductListScreen';
+export { default as ProductEditScreen } from './ProductEditScreen';
+export { default as ProductCreateScreen } from './ProductCreateScreen';
 export { default as UserOrderListScreen } from './UserOrderListScreen';
 export { default as ChangePasswordScreen } from './ChangePasswordScreen';
 

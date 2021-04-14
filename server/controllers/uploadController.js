@@ -14,11 +14,29 @@ const removeTemp = path => {
   });
 };
 
+// Upload Avatar
 export const uploadAvatar = asyncHandler(async (req, res) => {
   const file = req.files.avatar;
 
   const result = await cloudinary.uploader.upload(file.tempFilePath, {
     folder: 'avatar',
+  });
+
+  if (result) {
+    removeTemp(file.tempFilePath);
+    res.json({ url: result.secure_url });
+  } else {
+    res.status(400);
+    throw new Error('Something went wrong');
+  }
+});
+
+// Upload Product Image
+export const uploadProduct = asyncHandler(async (req, res) => {
+  const file = req.files.product;
+
+  const result = await cloudinary.uploader.upload(file.tempFilePath, {
+    folder: 'products',
   });
 
   if (result) {

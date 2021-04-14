@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import emptyImg from '../assets/empty.svg';
-import { getProductList } from '../redux/actions/productActions';
+import { deleteProduct, getProductList } from '../redux/actions/productActions';
 import { userDelete } from '../redux/actions/userActions';
 
 const ProductListScreen = () => {
@@ -12,6 +12,9 @@ const ProductListScreen = () => {
   const dispatch = useDispatch();
   const { user: userLogin } = useSelector(state => state.userLogin);
   const { products } = useSelector(state => state.productList);
+  const { success: deleteProductSuccess } = useSelector(
+    state => state.productDelete
+  );
 
   useEffect(() => {
     if (!userLogin?.isAdmin) {
@@ -19,13 +22,34 @@ const ProductListScreen = () => {
     } else {
       dispatch(getProductList());
     }
-  }, [dispatch, navigate, userLogin]);
+  }, [dispatch, navigate, userLogin, deleteProductSuccess]);
 
   return (
     <>
-      <h3 className='text-gray-800 text-xl pb-3 border-b-2 mb-5 font-medium'>
-        All Products
-      </h3>
+      <div className='flex flex-col sm:flex-row sm:space-y-0 space-y-3 sm:items-center sm:justify-between pb-3 border-b-2 mb-5'>
+        <h3 className='text-gray-800 text-2xl font-medium'>Product Details</h3>
+
+        <button
+          className='bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 transition-colors duration-300 flex items-center'
+          onClick={() => navigate('/profile/products/create')}
+        >
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            className='h-6 w-6'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+            />
+          </svg>
+          &nbsp;&nbsp; <span>Add product</span>
+        </button>
+      </div>
       {products?.length === 0 ? (
         <div className='space-y-10'>
           <div className='flex justify-center items-center mt-20'>
@@ -98,7 +122,9 @@ const ProductListScreen = () => {
                     <div className='flex items-center space-x-3'>
                       <button
                         className='px-4 py-2 bg-gray-100 hover:bg-white'
-                        onClick={() => navigate(`/order/${product._id}`)}
+                        onClick={() =>
+                          navigate(`/profile/products/${product._id}`)
+                        }
                       >
                         Edit
                       </button>
@@ -107,10 +133,10 @@ const ProductListScreen = () => {
                         onClick={() => {
                           if (
                             window.confirm(
-                              'Are you sure to delete this account?'
+                              'Are you sure to delete this product?'
                             )
                           ) {
-                            dispatch(userDelete(product?._id));
+                            dispatch(deleteProduct(product?._id));
                           }
                         }}
                       >

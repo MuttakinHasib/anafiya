@@ -23,7 +23,10 @@ import {
   UserListScreen,
   UserEditScreen,
   ProductListScreen,
+  ProductEditScreen,
+  ProductCreateScreen,
 } from './screens';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
   return (
@@ -36,6 +39,7 @@ function App() {
       />
       <main>
         <Container>
+          {/* <AnimatePresence exitBeforeEnter initial={false}> */}
           <Routes>
             <Route path='/' element={<HomeScreen />} />
             <Route path='product/:id' element={<ProductScreen />} />
@@ -54,19 +58,27 @@ function App() {
               element={<UserActivationScreen />}
             />
             <Route path='login' element={<LoginScreen />} />
+            {/* Start Dashboard Routes */}
             <Route path='profile' element={<ProfileScreen />}>
               <Route path='/' element={<UserInfoScreen />} />
               <Route path='/address' element={<UserAddressScreen />} />
               <Route path='/users' element={<UserListScreen />} />
               <Route path='/users/:id' element={<UserEditScreen />} />
               <Route path='/products' element={<ProductListScreen />} />
+              <Route
+                path='/products/create'
+                element={<ProductCreateScreen />}
+              />
+              <Route path='/products/:id' element={<ProductEditScreen />} />
               <Route path='/orderlist' element={<UserOrderListScreen />} />
               <Route
                 path='/change-password'
                 element={<ChangePasswordScreen />}
               />
             </Route>
+            {/* End Dashboard Routes */}
           </Routes>
+          {/* </AnimatePresence> */}
         </Container>
       </main>
     </Router>

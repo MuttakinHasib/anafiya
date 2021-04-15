@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import logo from '../assets/anafiya_logo.webp';
 import useMenuHandler from '../hooks/useMenuHandler';
@@ -8,29 +8,43 @@ import { logout } from '../redux/actions/userActions';
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [keyword, setKeyword] = useState('');
   const innerRef = useMenuHandler(() => setIsOpen(false));
   const { user } = useSelector(({ userLogin }) => userLogin);
   const { cartItems } = useSelector(({ cart }) => cart);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      navigate(`/search/${keyword}`);
+    } else {
+      navigate('/');
+    }
+  };
+
   return (
     <nav className='sticky top-0 z-50 border-b bg-white'>
       <div className='max-w-7xl mx-auto px-6 lg:px-8'>
         <div className='relative flex items-center justify-between h-16'>
           <div className='absolute inset-y-0 right-0 flex items-center md:hidden space-x-1'>
-            <form className='hidden sm:block'>
+            <form className='hidden sm:block' {...{ onSubmit }}>
               <div className='relative'>
                 <input
                   className='text-sm border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-4 pl-10 py-2 overflow-hidden'
                   type='text'
                   placeholder='Search here...'
+                  onChange={e => setKeyword(e.target.value)}
                 />
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'
-                  className='w-4 absolute top-2/4 left-3 transform -translate-y-2/4 text-gray-600'
+                  className='w-4 cursor-pointer box-content px-3 py-4 absolute top-2/4 left-0 transform -translate-y-2/4 text-gray-600'
+                  onClick={onSubmit}
                 >
                   <path
                     strokeLinecap='round'
@@ -180,19 +194,21 @@ const Header = () => {
 
           <div className='hidden md:block'>
             <div className='absolute space-x-5 inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6'>
-              <form>
+              <form {...{ onSubmit }}>
                 <div className='relative'>
                   <input
                     className='border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-5 pl-12 w-64 overflow-hidden'
                     type='text'
                     placeholder='Search here...'
+                    onChange={e => setKeyword(e.target.value)}
                   />
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
-                    className='w-5 absolute top-2/4 left-4 transform -translate-y-2/4 text-gray-600'
+                    className='w-5 cursor-pointer box-content py-4 px-3 absolute top-2/4 left-0 transform -translate-y-2/4 text-gray-600'
+                    onClick={onSubmit}
                   >
                     <path
                       strokeLinecap='round'
@@ -320,19 +336,21 @@ const Header = () => {
       >
         <div className={'md:hidden ' + (openMenu ? 'block' : 'hidden')}>
           <div className='px-6 pt-2 pb-3 space-y-3'>
-            <form className='block sm:hidden'>
-              <div className='relative'>
+            <form className='block sm:hidden' {...{ onSubmit }}>
+              <div className='relative inline-block'>
                 <input
-                  className='text-sm border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-4 pl-10 py-2 overflow-hidden'
+                  className='text-sm border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-4 py-2 overflow-hidden'
                   type='text'
                   placeholder='Search here...'
+                  onChange={e => setKeyword(e.target.value)}
                 />
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'
-                  className='w-4 absolute top-2/4 left-3 transform -translate-y-2/4 text-gray-600'
+                  className='w-4 cursor-pointer p-2 box-content absolute top-2/4 right-2 transform -translate-y-2/4 text-gray-600'
+                  onClick={onSubmit}
                 >
                   <path
                     strokeLinecap='round'

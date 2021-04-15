@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +21,18 @@ const UserListScreen = () => {
     }
   }, [dispatch, navigate, userLogin]);
 
+  const stagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return (
     <>
       <h3 className='text-gray-800 text-2xl pb-3 border-b-2 mb-5 font-medium'>
@@ -36,7 +49,13 @@ const UserListScreen = () => {
         </div>
       ) : (
         <div className='overflow-x-auto mt-6'>
-          <table className='table-auto border-collapse w-full'>
+          <motion.table
+            exit={{ opacity: 0 }}
+            variants={stagger}
+            initial='hidden'
+            animate='visible'
+            className='table-auto border-collapse w-full'
+          >
             <thead>
               <tr
                 className='rounded-lg text-sm font-medium text-gray-700 text-left'
@@ -124,7 +143,7 @@ const UserListScreen = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </motion.table>
         </div>
       )}
     </>

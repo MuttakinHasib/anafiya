@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { userProfileUpdate } from '../redux/actions/userActions';
 
 const ChangePasswordScreen = () => {
   const dispatch = useDispatch();
-  // const { user } = useSelector(state => state.userLogin);
+  const navigate = useNavigate();
+  const { user } = useSelector(state => state.userLogin);
 
   const [state, setState] = useState({
     oldPassword: '',
     newPassword: '',
     cPassword: '',
   });
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   const { oldPassword, newPassword, cPassword } = state;
 
@@ -27,13 +35,33 @@ const ChangePasswordScreen = () => {
     }
     setState({ oldPassword: '', newPassword: '', cPassword: '' });
   };
+
+  const stagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return (
     <>
       <h3 className='text-gray-800 text-2xl pb-3 border-b-2 mb-5 font-medium'>
         Change Password
       </h3>
       <div className='max-w-xl'>
-        <form className='space-y-3' {...{ onSubmit }}>
+        <motion.form
+          exit={{ opacity: 0 }}
+          variants={stagger}
+          initial='hidden'
+          animate='visible'
+          className='space-y-3'
+          {...{ onSubmit }}
+        >
           <div>
             <label
               htmlFor='oldPassword'
@@ -108,7 +136,7 @@ const ChangePasswordScreen = () => {
               Save
             </button>
           </div>
-        </form>
+        </motion.form>
       </div>
     </>
   );

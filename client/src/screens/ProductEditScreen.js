@@ -2,9 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import Moment from 'react-moment';
 
-import { getUserDetails, updateUser } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
 import {
   getProductDetails,

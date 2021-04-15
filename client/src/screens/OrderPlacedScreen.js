@@ -1,13 +1,13 @@
+import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import checkIcon from '../assets/check-icon.svg';
 import Loader from '../components/Loader';
 import { orderDetails } from '../redux/actions/orderActions';
 
 const OrderPlacedScreen = () => {
   const params = useParams();
-  const navigate = useNavigate();
   const orderId = params.id;
   const dispatch = useDispatch();
   const { order, loading } = useSelector(state => state.orderDetails);
@@ -15,10 +15,29 @@ const OrderPlacedScreen = () => {
   useEffect(() => {
     dispatch(orderDetails(orderId));
   }, [dispatch, orderId]);
+
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return loading ? (
     <Loader />
   ) : (
-    <>
+    <motion.div
+      exit={{ opacity: 0, y: 5 }}
+      variants={stagger}
+      initial='hidden'
+      animate='visible'
+    >
       <div className='text-center mt-20'>
         <img className='mx-auto' src={checkIcon} alt='' />
         <h3 className='mt-5 mb-3 text-3xl text-gray-700 font-light'>
@@ -115,7 +134,7 @@ const OrderPlacedScreen = () => {
           </div>
         )}
       </div>
-    </>
+    </motion.div>
   );
 };
 

@@ -6,43 +6,52 @@ import { motion } from 'framer-motion';
 
 import { addToCart } from '../../redux/actions/cartActions';
 import Rating from '../Rating';
+import StockAlert from '../StockAlert';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, i }) => {
   const dispatch = useDispatch();
+
+  const fadeUp = {
+    initial: { x: 30, opacity: 0 },
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] },
+    },
+  };
   return (
     <motion.div
-      className='block'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1 }}
+      layout
+      variants={fadeUp}
+      initial='initial'
+      animate='animate'
+      className='flex flex-col justify-center mx-auto hover:shadow-xl border-2 border-dashed transition-shadow duration-500'
     >
-      <div className='flex flex-col justify-center mx-auto hover:shadow-xl border-2 border-dashed transition-shadow duration-500'>
-        <Link to={`/product/${product?._id}`} className='flex-1'>
-          <img
-            className='h-64 w-80 object-cover '
-            src={product?.image}
-            alt=''
-          />
-        </Link>
-        <div className='px-5 py-3'>
-          <div className='flex justify-between items-center'>
-            <small className='text-gray-500'>{product?.category}</small>
-            <Rating value={product?.rating} />
-          </div>
-          <div className='flex justify-between items-center'>
-            <Link
-              to='/product/1'
-              className='text-base text-gray-700 hover:underline '
-            >
-              {product?.name}
-            </Link>
-            <small className='text-gray-400'>
-              {product?.numReviews} reviews
-            </small>
-          </div>
+      <Link to={`/product/${product?._id}`} className='flex-1'>
+        <img
+          className='h-64 w-80 object-cover mx-auto'
+          src={product?.image}
+          alt=''
+        />
+      </Link>
+      <div className='px-5 py-3'>
+        <div className='flex justify-between items-center'>
+          <small className='text-gray-500'>{product?.category}</small>
+          <Rating value={product?.rating} />
         </div>
-        <div className='flex justify-between items-center px-5 py-3 border-t border-dotted'>
-          <h3 className='text-base text-yellow-700'>${product?.price}</h3>
+        <div className='flex justify-between items-center'>
+          <Link
+            to='/product/1'
+            className='text-base text-gray-700 hover:underline '
+          >
+            {product?.name}
+          </Link>
+          <small className='text-gray-400'>{product?.numReviews} reviews</small>
+        </div>
+      </div>
+      <div className='flex justify-between items-center px-5 py-3 border-t border-dotted'>
+        <h3 className='text-base text-yellow-700'>${product?.price}</h3>
+        {product?.countInStock > 0 ? (
           <button
             className='text-blue-900 hover:underline focus:outline-none font-semibold flex items-center space-x-2'
             title='Add to cart'
@@ -72,7 +81,9 @@ const ProductCard = ({ product }) => {
             </svg>
             <small>Add to cart</small>
           </button>
-        </div>
+        ) : (
+          <StockAlert inStock={product?.countInStock > 0} />
+        )}
       </div>
     </motion.div>
   );

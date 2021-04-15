@@ -19,7 +19,10 @@ import {
 } from './types';
 
 // GET ALL PRODUCTS ACTION
-export const getProductList = () => async dispatch => {
+export const getProductList = (
+  keyword = '',
+  pageNumber = ''
+) => async dispatch => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const config = {
@@ -27,7 +30,10 @@ export const getProductList = () => async dispatch => {
         'Content-Type': 'application/json',
       },
     };
-    const { data } = await axios.get(`/api/products`, config);
+    const { data } = await axios.get(
+      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`,
+      config
+    );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (err) {
     const error =

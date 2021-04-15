@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -24,20 +25,49 @@ const ProductScreen = () => {
     navigate(`/cart/${productId}?qty=${quantity}`);
   };
 
-  return (
-    <div className='space-y-5 divide-y divide-gray-100'>
-      {loading && <Loader />}
+  return loading ? (
+    <Loader />
+  ) : (
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className='space-y-5 divide-y divide-gray-100'
+    >
       <div className='grid gap-14 md:grid-cols-2 pb-10'>
-        <img
+        <motion.img
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2, delay: 0.3 }}
           src={product?.image}
           alt=''
-          className='mx-auto max-w-sm md:max-w-md'
+          className='mx-auto w-full max-w-md'
         />
-        <div className='mx-auto max-w-sm md:max-w-full'>
+        <motion.div
+          className='mx-auto max-w-sm md:max-w-full'
+          variants={{
+            hidden: { opacity: 0, y: 10 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                staggerChildren: 0.3,
+                duration: 0.3,
+                delay: 0.3,
+              },
+            },
+          }}
+          initial='hidden'
+          animate='visible'
+        >
           <span className='text-md text-gray-500'>
             {product?.category.toUpperCase()}
           </span>
-          <h2 className='text-5xl text-gray-700 mt-5 mb-3'>{product?.name}</h2>
+          <h2 className='text-4xl md:text-5xl text-gray-700 mt-5 mb-3'>
+            {product?.name}
+          </h2>
           <div className='divide-y-2 divide-gray-100'>
             <div className='flex items-center space-x-5'>
               <Rating value={product?.rating} />
@@ -46,12 +76,12 @@ const ProductScreen = () => {
               </span>
             </div>
             <div className='flex items-center space-x-5 mt-5 pt-5 mb-7'>
-              <h3 className='text-4xl'>${product?.price}</h3>
+              <h3 className='text-2xl md:text-3xl'>${product?.price}</h3>
               <StockAlert inStock={product?.countInStock > 0} />
             </div>
           </div>
           <p className='text-gray-500 prose'>{product?.description}</p>
-          <div className='flex items-center space-x-5 mt-10'>
+          <div className='flex md:flex-row flex-col md:items-center space-y-5 md:space-y-0 md:space-x-5 mt-10'>
             {product?.countInStock > 0 && (
               <div className='space-x-3'>
                 <span className='font-semibold'>Quantity</span>
@@ -79,16 +109,34 @@ const ProductScreen = () => {
               Add to cart
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
-      <div className='pt-5 mx-auto max-w-sm md:max-w-full'>
+      <motion.div
+        exit={{ opacity: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className='pt-5 mx-auto max-w-sm md:max-w-full'
+      >
         <div className='grid gap-10 md:grid-cols-2 '>
           <div>
             <h3 className='text-gray-700 text-2xl mb-10'>
               Ratings & Reviews of {product?.name}
             </h3>
             <div className='divide-y divide-gray-200'>
-              <div className='space-y-3'>
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: -20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { staggerChildren: 0.5 },
+                  },
+                }}
+                initial='hidden'
+                animate='visible'
+                className='space-y-3'
+              >
                 <div className='flex items-center space-x-5'>
                   <img
                     src='https://res.cloudinary.com/muttakinhasib/image/upload/v1611336104/avatar/user_qcrqny.svg'
@@ -104,7 +152,7 @@ const ProductScreen = () => {
                   Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id,
                   enim!
                 </p>
-              </div>
+              </motion.div>
             </div>
           </div>
           <div>
@@ -137,8 +185,8 @@ const ProductScreen = () => {
             </form>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

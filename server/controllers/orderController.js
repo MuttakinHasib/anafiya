@@ -2,6 +2,13 @@ import Stripe from 'stripe';
 import { v4 as uuid } from 'uuid';
 import asyncHandler from 'express-async-handler';
 import Order from '../models/Order.js';
+import {
+  sendOrderCreateEmail,
+  sendOrderPaidEmail,
+  sendOrderDeliveredEmail,
+  sendOrderPaidEmailToAdmin,
+  sendOrderCreateEmailToAdmin,
+} from '../utils/sendMail.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -30,9 +37,13 @@ export const addOrderItems = asyncHandler(async (req, res) => {
       shippingPrice,
       taxPrice,
       totalPrice,
-    });
+    }).populate('user', 'name email');
 
     const createdOrder = await order.save();
+
+    sendOrderCreateEmail(createdOrder);
+    sendOrderCreateEmailToAdmin(createdOrder);
+
     res.json(createdOrder);
   }
 });
@@ -73,7 +84,10 @@ export const stripePayment = asyncHandler(async (req, res) => {
 });
 
 export const updateOrderToPaid = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'name email'
+  );
   order.isPaid = true;
   order.paidAt = Date.now();
   order.paymentResult = {
@@ -82,17 +96,26 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
     email_address: req.body.email_address,
   };
 
-  const updateOrder = await order.save();
-  res.json(updateOrder);
+  const updatedOrder = await order.save();
+  sendOrderPaidEmail(updatedOrder);
+  sendOrderPaidEmailToAdmin(updatedOrder);
+  res.json(updatedOrder);
 });
 
 export const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'name email'
+  );
   if (order) {
     order.isDelivered = true;
     order.deliveredAt = Date.now();
-    const updateOrder = await order.save();
-    res.json(updateOrder);
+
+    const updatedOrder = await order.save();
+
+    sendOrderDeliveredEmail(updatedOrder);
+
+    res.json(updatedOrder);
   } else {
     res.status(404);
     throw new Error('Order not found');

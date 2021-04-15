@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -64,15 +65,39 @@ const PlaceOrderScreen = () => {
       })
     );
   };
-  
+
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return (
-    <>
+    <motion.div
+      exit={{ opacity: 0, y: 5 }}
+      variants={stagger}
+      initial='hidden'
+      animate='visible'
+    >
       <CheckoutSteps step1 step2 step3 />
       <div className='grid gap-12 lg:grid-cols-3 mt-12 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
         <div className='lg:col-span-2 space-y-7'>
           <div>
             <h2 className='text-2xl text-gray-600 mb-5'>Ordered Items</h2>
-            <div className='border-2 border-gray-200 rounded-md px-8 py-5 divide-y-2 space-y-2'>
+            <motion.div
+              exit={{ opacity: 0, y: 5 }}
+              variants={stagger}
+              initial='hidden'
+              animate='visible'
+              className='border-2 border-gray-200 rounded-md px-8 py-5 divide-y-2 space-y-2'
+            >
               {cart?.cartItems.map(item => (
                 <div
                   className='flex md:items-center flex-col md:flex-row justify-between'
@@ -93,7 +118,7 @@ const PlaceOrderScreen = () => {
                   </p>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </div>
           <div>
             <h2 className='text-2xl text-gray-600 mb-5'>Payment Method</h2>
@@ -171,7 +196,7 @@ const PlaceOrderScreen = () => {
           </div>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 

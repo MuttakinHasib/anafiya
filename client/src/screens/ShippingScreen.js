@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,8 +47,26 @@ const ShippingScreen = () => {
     dispatch(saveShippingAddress(shippingAddress));
     navigate('/payment');
   };
+
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+      },
+    },
+  };
+
   return (
-    <>
+    <motion.div
+      exit={{ opacity: 0, y: 5 }}
+      variants={stagger}
+      initial='hidden'
+      animate='visible'
+    >
       <CheckoutSteps step1 />
       <div className='grid gap-12 lg:grid-cols-3 mt-12 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
         <div className='lg:col-span-2 max-w-full lg:max-w-2xl'>
@@ -143,7 +162,7 @@ const ShippingScreen = () => {
           </div>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 

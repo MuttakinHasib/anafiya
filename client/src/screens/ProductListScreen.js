@@ -1,17 +1,23 @@
-import React, { useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 
 import emptyImg from '../assets/empty.svg';
 import { deleteProduct, getProductList } from '../redux/actions/productActions';
-import { userDelete } from '../redux/actions/userActions';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pages, setPages] = useState(1);
+
   const { user: userLogin } = useSelector(state => state.userLogin);
-  const { products } = useSelector(state => state.productList);
+  const { products, pages: totalPage } = useSelector(
+    state => state.productList
+  );
   const { success: deleteProductSuccess } = useSelector(
     state => state.productDelete
   );
@@ -20,9 +26,33 @@ const ProductListScreen = () => {
     if (!userLogin?.isAdmin) {
       navigate('/profile');
     } else {
-      dispatch(getProductList());
+      dispatch(getProductList('', pageNumber));
     }
-  }, [dispatch, navigate, userLogin, deleteProductSuccess]);
+  }, [dispatch, navigate, userLogin, pageNumber, deleteProductSuccess]);
+
+  useEffect(() => {
+    if (!totalPage) {
+      setPages(page => page);
+    } else {
+      setPages(totalPage);
+    }
+  }, [totalPage]);
+
+  const pageHandler = page => {
+    setPageNumber(Number(page.selected + 1));
+  };
+
+  const stagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
 
   return (
     <>
@@ -61,7 +91,13 @@ const ProductListScreen = () => {
         </div>
       ) : (
         <div className='overflow-x-auto mt-6'>
-          <table className='table-auto border-collapse w-full'>
+          <motion.table
+            exit={{ opacity: 0 }}
+            variants={stagger}
+            initial='hidden'
+            animate='visible'
+            className='table-auto border-collapse w-full'
+          >
             <thead>
               <tr
                 className='rounded-lg text-sm font-medium text-gray-700 text-left'
@@ -147,7 +183,58 @@ const ProductListScreen = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </motion.table>
+          {pages > 1 && (
+            <div className='text-center md:text-right'>
+              <div className='bg-gray-100 my-10 px-3 py-3 inline-block rounded-md'>
+                <ReactPaginate
+                  previousLabel={
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      className='h-6 w-6 px-4 box-content'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke='currentColor'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M15 19l-7-7 7-7'
+                      />
+                    </svg>
+                  }
+                  nextLabel={
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      className='h-6 w-6 px-4 box-content'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke='currentColor'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M9 5l7 7-7 7'
+                      />
+                    </svg>
+                  }
+                  pageCount={pages}
+                  onPageChange={pageHandler}
+                  marginPagesDisplayed={1}
+                  pageRangeDisplayed={4}
+                  containerClassName={'text-lg flex space-x-3'}
+                  previousLinkClassName={'outline-none rounded-md'}
+                  pageLinkClassName={'px-4 outline-none'}
+                  nextLinkClassName={'outline-none rounded-md'}
+                  activeClassName={'bg-gray-50 border text-indigo-600'}
+                  disabledClassName={'opacity-20'}
+                  breakLabel={'...'}
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
     </>

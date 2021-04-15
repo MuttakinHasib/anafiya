@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { AnimatePresence } from 'framer-motion';
+
 import { Header } from './components';
 import Container from './components/Container';
 import {
@@ -25,8 +27,8 @@ import {
   ProductListScreen,
   ProductEditScreen,
   ProductCreateScreen,
+  OrderListScreen,
 } from './screens';
-import { AnimatePresence } from 'framer-motion';
 
 function App() {
   return (
@@ -39,46 +41,53 @@ function App() {
       />
       <main>
         <Container>
-          {/* <AnimatePresence exitBeforeEnter initial={false}> */}
-          <Routes>
-            <Route path='/' element={<HomeScreen />} />
-            <Route path='product/:id' element={<ProductScreen />} />
-            <Route path='cart' element={<CartScreen />}>
-              <Route path='/:id' element={<CartScreen />} />
-            </Route>
-            <Route path='shipping' element={<ShippingScreen />} />
-            <Route path='payment' element={<PaymentScreen />} />
-            <Route path='placeorder' element={<PlaceOrderScreen />} />
-            <Route path='order' element={<OrderScreen />} />
-            <Route path='order/:id' element={<OrderScreen />} />
-            <Route path='order/:id/success' element={<OrderPlacedScreen />} />
-            <Route path='register' element={<RegisterScreen />} />
-            <Route
-              path='user/active/:token'
-              element={<UserActivationScreen />}
-            />
-            <Route path='login' element={<LoginScreen />} />
-            {/* Start Dashboard Routes */}
-            <Route path='profile' element={<ProfileScreen />}>
-              <Route path='/' element={<UserInfoScreen />} />
-              <Route path='/address' element={<UserAddressScreen />} />
-              <Route path='/users' element={<UserListScreen />} />
-              <Route path='/users/:id' element={<UserEditScreen />} />
-              <Route path='/products' element={<ProductListScreen />} />
+          <AnimatePresence exitBeforeEnter>
+            <Routes>
+              <Route path='/' element={<HomeScreen />} />
+              <Route path='search/:keyword' element={<HomeScreen />} />
+              <Route path='page/:pageNumber' element={<HomeScreen />} />
               <Route
-                path='/products/create'
-                element={<ProductCreateScreen />}
+                path='search/:keyword/page/:pageNumber'
+                element={<HomeScreen />}
               />
-              <Route path='/products/:id' element={<ProductEditScreen />} />
-              <Route path='/orderlist' element={<UserOrderListScreen />} />
+              <Route path='product/:id' element={<ProductScreen />} />
+              <Route path='cart' element={<CartScreen />}>
+                <Route path='/:id' element={<CartScreen />} />
+              </Route>
+              <Route path='shipping' element={<ShippingScreen />} />
+              <Route path='payment' element={<PaymentScreen />} />
+              <Route path='placeorder' element={<PlaceOrderScreen />} />
+              <Route path='order' element={<OrderScreen />} />
+              <Route path='order/:id' element={<OrderScreen />} />
+              <Route path='order/:id/success' element={<OrderPlacedScreen />} />
+              <Route path='register' element={<RegisterScreen />} />
               <Route
-                path='/change-password'
-                element={<ChangePasswordScreen />}
+                path='user/active/:token'
+                element={<UserActivationScreen />}
               />
-            </Route>
-            {/* End Dashboard Routes */}
-          </Routes>
-          {/* </AnimatePresence> */}
+              <Route path='login' element={<LoginScreen />} />
+              {/* Start Dashboard Routes */}
+              <Route path='profile' element={<ProfileScreen />}>
+                <Route path='/' element={<UserInfoScreen />} />
+                <Route path='/address' element={<UserAddressScreen />} />
+                <Route path='/users' element={<UserListScreen />} />
+                <Route path='/users/orders' element={<OrderListScreen />} />
+                <Route path='/users/:id' element={<UserEditScreen />} />
+                <Route path='/products' element={<ProductListScreen />} />
+                <Route
+                  path='/products/create'
+                  element={<ProductCreateScreen />}
+                />
+                <Route path='/products/:id' element={<ProductEditScreen />} />
+                <Route path='/orderlist' element={<UserOrderListScreen />} />
+                <Route
+                  path='/change-password'
+                  element={<ChangePasswordScreen />}
+                />
+              </Route>
+              {/* End Dashboard Routes */}
+            </Routes>
+          </AnimatePresence>
         </Container>
       </main>
     </Router>

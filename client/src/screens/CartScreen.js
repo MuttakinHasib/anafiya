@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -12,9 +13,7 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   const productId = params.id;
   const quantity = location.search ? Number(location.search.split('=')[1]) : 1;
-  const { cartItems, loading: cartLoading, error: cartError } = useSelector(
-    state => state.cart
-  );
+  const { cartItems, loading: cartLoading } = useSelector(state => state.cart);
 
   useEffect(() => {
     if (productId) {
@@ -22,8 +21,27 @@ const CartScreen = () => {
     }
   }, [dispatch, productId, quantity]);
 
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return cartItems?.length === 0 ? (
-    <div className='space-y-10'>
+    <motion.div
+      exit={{ opacity: 0 }}
+      variants={stagger}
+      initial='hidden'
+      animate='visible'
+      className='space-y-10'
+    >
       <Link
         to='/'
         className='py-3 px-5 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-300'
@@ -36,13 +54,24 @@ const CartScreen = () => {
       <h1 className='text-center text-2xl lg:text-4xl text-gray-700'>
         Your Shopping Cart is Empty
       </h1>
-    </div>
+    </motion.div>
   ) : (
-    <>
+    <motion.div
+      exit={{ opacity: 0, y: 5 }}
+      variants={stagger}
+      initial='hidden'
+      animate='visible'
+    >
       {cartLoading && <Loader />}
       <h2 className='text-4xl text-gray-700 mb-10'>Your Shopping Cart</h2>
       <div className='grid gap-12 lg:grid-cols-3 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
-        <div className='lg:col-span-2 overflow-auto divide-y-2'>
+        <motion.div
+          exit={{ opacity: 0, y: 5 }}
+          variants={stagger}
+          initial='hidden'
+          animate='visible'
+          className='lg:col-span-2 overflow-auto divide-y-2'
+        >
           {cartItems?.map(item => (
             <div className='flex md:flex-row flex-col md:justify-between md:items-center md:space-x-8 space-y-3 py-3 pb-4'>
               <img className='w-2/3 mx-auto md:w-20' src={item?.image} alt='' />
@@ -91,7 +120,7 @@ const CartScreen = () => {
               </button>
             </div>
           ))}
-        </div>
+        </motion.div>
         <div className='lg:col-span-1'>
           <div className=' border-2 border-dashed p-5 md:p-8 rounded-md'>
             <h2 className='text-xl text-gray-700 font-semibold mb-5'>
@@ -122,7 +151,7 @@ const CartScreen = () => {
           </div>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 

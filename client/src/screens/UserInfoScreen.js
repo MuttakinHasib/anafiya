@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfileUpdate } from '../redux/actions/userActions';
@@ -19,6 +20,19 @@ const UserInfoScreen = () => {
     e.preventDefault();
     dispatch(userProfileUpdate({ firstName, lastName }));
     setDisableEdit(true);
+  };
+
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
   };
 
   return (
@@ -51,7 +65,14 @@ const UserInfoScreen = () => {
         )}
       </div>
       <div className='max-w-lg'>
-        <form className='space-y-3' {...{ onSubmit }}>
+        <motion.form
+          exit={{ opacity: 0 }}
+          variants={stagger}
+          initial='hidden'
+          animate='visible'
+          className='space-y-3'
+          {...{ onSubmit }}
+        >
           <div className='flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-5'>
             <div className='w-full'>
               <label
@@ -143,7 +164,7 @@ const UserInfoScreen = () => {
               </button>
             </div>
           )}
-        </form>
+        </motion.form>
       </div>
     </>
   );

@@ -16,6 +16,7 @@ export { default as ProductListScreen } from './ProductListScreen';
 export { default as ProductEditScreen } from './ProductEditScreen';
 export { default as ProductCreateScreen } from './ProductCreateScreen';
 export { default as UserOrderListScreen } from './UserOrderListScreen';
+export { default as OrderListScreen } from './OrderListScreen';
 export { default as ChangePasswordScreen } from './ChangePasswordScreen';
 
 export { default as RegisterScreen } from './RegisterScreen';

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +27,20 @@ const UserAddressScreen = () => {
     toast.success('Your address has been saved');
     setDisableEdit(true);
   };
+
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return (
     <>
       <div className='flex items-center justify-between pb-3 border-b-2 mb-5'>
@@ -56,7 +71,14 @@ const UserAddressScreen = () => {
         )}
       </div>
       <div className='max-w-lg'>
-        <form className='space-y-3' {...{ onSubmit }}>
+        <motion.form
+          exit={{ opacity: 0 }}
+          variants={stagger}
+          initial='hidden'
+          animate='visible'
+          className='space-y-3'
+          {...{ onSubmit }}
+        >
           <div className='flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-5'>
             <div className='w-full'>
               <label
@@ -238,7 +260,7 @@ const UserAddressScreen = () => {
               </button>
             </div>
           )}
-        </form>
+        </motion.form>
       </div>
     </>
   );

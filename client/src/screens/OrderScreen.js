@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -74,10 +75,28 @@ const OrderScreen = () => {
     dispatch(orderDelivered(orderId));
   };
 
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return loading ? (
     <Loader />
   ) : (
-    <>
+    <motion.div
+      exit={{ opacity: 0, y: 5 }}
+      variants={stagger}
+      initial='hidden'
+      animate='visible'
+    >
       <h2 className='text-center text-2xl text-green-500'>
         Order No #{order?._id}
       </h2>
@@ -212,7 +231,7 @@ const OrderScreen = () => {
               <div className='mt-5 border-t-2 border-dashed pt-5'>
                 <StripeCheckout
                   label='Pay now'
-                  name='Proshop'
+                  name='Anafiya'
                   // billingAddress
                   // shoppingAddress
                   image='https://stripe.com/img/documentation/checkout/marketplace.png'
@@ -228,7 +247,7 @@ const OrderScreen = () => {
           </div>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 

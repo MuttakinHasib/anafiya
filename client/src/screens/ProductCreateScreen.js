@@ -1,15 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Loader from '../components/Loader';
-import {
-  createProduct,
-  getProductDetails,
-  getProductList,
-  updateProduct,
-} from '../redux/actions/productActions';
+import { createProduct } from '../redux/actions/productActions';
+import { PRODUCT_CREATE_RESET } from '../redux/actions/types';
 
 const ProductCreateScreen = () => {
   const dispatch = useDispatch();
@@ -33,10 +29,16 @@ const ProductCreateScreen = () => {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
+    dispatch({ type: PRODUCT_CREATE_RESET });
     if (!userLogin || !userLogin?.isAdmin) {
       navigate('/profile');
+    } else {
+      if (productCreateSuccess) {
+        navigate('/');
+        dispatch({ type: PRODUCT_CREATE_RESET });
+      }
     }
-  }, [dispatch, userLogin, navigate]);
+  }, [dispatch, userLogin, navigate, productCreateSuccess]);
 
   // Upload Avatar Handler
 
@@ -83,8 +85,6 @@ const ProductCreateScreen = () => {
         countInStock,
       })
     );
-    // dispatch(getProductList());
-    navigate('/');
   };
 
   return (

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router';
@@ -49,8 +50,27 @@ const ProfileScreen = () => {
     } catch (err) {}
   };
 
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
+  };
+
   return (
-    <div className='grid gap-10 lg:grid-cols-7'>
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className='grid gap-10 lg:grid-cols-7'
+    >
       {(loading || uploading) && <Loader />}
       <div className='lg:col-span-2'>
         <div className='shadow-lg p-5 space-y-8 max-w-xl lg:max-w-full mx-auto'>
@@ -104,7 +124,13 @@ const ProfileScreen = () => {
               </a>
             </div>
           </div>
-          <div className='space-y-4'>
+          <motion.div
+            exit={{ opacity: 0 }}
+            variants={stagger}
+            initial='hidden'
+            animate='visible'
+            className='space-y-4'
+          >
             <NavLink
               to='/profile'
               activeClassName='border-l-4 border-gray-900'
@@ -209,6 +235,30 @@ const ProfileScreen = () => {
                     <span>Product List</span>
                   </div>
                 </NavLink>
+                <NavLink
+                  to='/profile/users/orders'
+                  activeClassName='border-l-4 border-gray-900'
+                  inactiveClassName='border-l-4 border-transparent'
+                  className='px-3 py-2 bg-gray-100 w-full block text-gray-600 font-light'
+                >
+                  <div className='flex items-center space-x-5'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      className='h-6 w-6'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke='currentColor'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4'
+                      />
+                    </svg>
+                    <span>Users Order List</span>
+                  </div>
+                </NavLink>
               </>
             )}
             <NavLink
@@ -232,7 +282,7 @@ const ProfileScreen = () => {
                     d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
                   />
                 </svg>
-                <span>Order List</span>
+                <span>My Order List</span>
               </div>
             </NavLink>
             <NavLink
@@ -259,7 +309,7 @@ const ProfileScreen = () => {
                 <span>Change Password</span>
               </div>
             </NavLink>
-          </div>
+          </motion.div>
         </div>
       </div>
       <div className='lg:col-span-5 overflow-x-auto'>
@@ -267,7 +317,7 @@ const ProfileScreen = () => {
           <Outlet />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -6,6 +6,7 @@ import Moment from 'react-moment';
 
 import { getUserDetails, updateUser } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
+import { motion } from 'framer-motion';
 
 const UserEditScreen = () => {
   const dispatch = useDispatch();
@@ -73,6 +74,19 @@ const UserEditScreen = () => {
     e.preventDefault();
     dispatch(updateUser(user?._id, { firstName, lastName, email, isAdmin }));
     setDisableEdit(true);
+  };
+
+  const stagger = {
+    hidden: { opacity: 0, y: 5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+        delay: 0.2,
+      },
+    },
   };
 
   return (
@@ -174,7 +188,14 @@ const UserEditScreen = () => {
         )}
       </div>
       <div className='max-w-lg'>
-        <form className='space-y-3' {...{ onSubmit }}>
+        <motion.form
+          exit={{ opacity: 0 }}
+          variants={stagger}
+          initial='hidden'
+          animate='visible'
+          className='space-y-3'
+          {...{ onSubmit }}
+        >
           <div className='flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-5'>
             <div className='w-full'>
               <label
@@ -267,7 +288,7 @@ const UserEditScreen = () => {
               </button>
             </div>
           )}
-        </form>
+        </motion.form>
       </div>
     </>
   );

@@ -4,9 +4,17 @@
 
 body {
   font-family: 'Ubuntu', sans-serif;
+  -ms-overflow-style: none;
 }
 label:not(.upload-btn) {
   color: #4b5563 !important;
+}
+::-webkit-scrollbar {
+  display: none !important;
+}
+
+::-webkit-scrollbar-button {
+  display: none !important;
 }
 .loading svg {
   font-size: 5px;

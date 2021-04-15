@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -25,8 +26,24 @@ const PaymentScreen = () => {
     navigate('/placeorder');
   };
 
+  const stagger = {
+    hidden: { opacity: 0,},
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.3,
+      },
+    },
+  };
+
   return (
-    <>
+    <motion.div
+      exit={{ opacity: 0 }}
+      variants={stagger}
+      initial='hidden'
+      animate='visible'
+    >
       <CheckoutSteps step1 step2 />
       <div className='grid gap-12 lg:grid-cols-3 mt-12 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
         <div className='lg:col-span-2 '>
@@ -89,7 +106,7 @@ const PaymentScreen = () => {
           </div>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 

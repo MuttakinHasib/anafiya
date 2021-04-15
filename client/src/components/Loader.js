@@ -1,8 +1,13 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 
 const Loader = () => {
   return (
-    <div
+    <motion.div
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
       className='fixed flex justify-center items-center w-screen h-screen text-center loading top-0 left-0'
       style={{ backgroundColor: '#0008', color: '#fff', zIndex: 20 }}
     >
@@ -17,7 +22,7 @@ const Loader = () => {
           Loading
         </text>
       </svg>
-    </div>
+    </motion.div>
   );
 };
 

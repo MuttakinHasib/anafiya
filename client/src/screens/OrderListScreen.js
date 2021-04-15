@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUserOrdersList } from '../redux/actions/orderActions';
+import { getOrderList } from '../redux/actions/orderActions';
 import emptyImg from '../assets/empty.svg';
 import { motion } from 'framer-motion';
 
-const UserOrderListScreen = () => {
+const OrderListScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { orders } = useSelector(state => state.userOrdersList);
+  const { orders } = useSelector(state => state.orderList);
 
   useEffect(() => {
-    dispatch(getUserOrdersList());
+    dispatch(getOrderList());
   }, [dispatch]);
 
   const stagger = {
@@ -131,4 +131,4 @@ const UserOrderListScreen = () => {
   );
 };
 
-export default UserOrderListScreen;
+export default OrderListScreen;

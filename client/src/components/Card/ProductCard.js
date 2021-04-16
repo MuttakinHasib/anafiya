@@ -40,7 +40,7 @@ const ProductCard = ({ product, i }) => {
         </div>
         <div className='flex justify-between items-center'>
           <Link
-            to='/product/1'
+            to={`/product/${product?._id}`}
             className='text-base text-gray-700 hover:underline flex-1'
           >
             {product?.name}

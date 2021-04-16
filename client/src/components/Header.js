@@ -168,6 +168,19 @@ const Header = () => {
                           Your Profile
                         </span>
                       </Link>
+                      {user?.isAdmin && (
+                        <>
+                          <Link to='/profile/products/create'>
+                            <span
+                              className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                              role='menuitem'
+                              onClick={() => setIsOpen(false)}
+                            >
+                              Add Product
+                            </span>
+                          </Link>
+                        </>
+                      )}
                       <button
                         className='flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                         role='menuitem'
@@ -301,6 +314,19 @@ const Header = () => {
                           Your Profile
                         </span>
                       </Link>
+                      {user?.isAdmin && (
+                        <>
+                          <Link to='/profile/products/create'>
+                            <span
+                              className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                              role='menuitem'
+                              onClick={() => setIsOpen(false)}
+                            >
+                              Add Product
+                            </span>
+                          </Link>
+                        </>
+                      )}
                       <button
                         className='flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                         role='menuitem'

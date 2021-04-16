@@ -121,7 +121,7 @@ export const sendOrderCreateEmailToAdmin = order => {
 
   const mailOptions = {
     from: `Anafiya < ${ADMIN_EMAIL}>`,
-    to: `Hasib Molla <hasibmolla28@gmail.com>`,
+    to: `Anafiya < ${ADMIN_EMAIL}>`,
     subject: `Anafiya - New Order No# ${order._id}`,
 
     html: `
@@ -161,7 +161,7 @@ export const sendOrderPaidEmail = order => {
 
   const mailOptions = {
     from: `Anafiya < ${ADMIN_EMAIL}>`,
-    to: `Hasib Molla <hasibmolla28@gmail.com>`,
+    to: `${order?.shippingAddress?.name} < ${order?.shippingAddress?.email}>`,
     subject: `Payment Received - Order No# ${order._id} & Transaction ID ${order.paymentResult.id}`, // Subject line
     html: `
         <div style='margin-bottom: 10px;'>
@@ -203,7 +203,7 @@ export const sendOrderPaidEmailToAdmin = order => {
 
   const mailOptions = {
     from: `Anafiya < ${ADMIN_EMAIL}>`,
-    to: `${order?.shippingAddress?.name} < ${order?.shippingAddress?.email}>`,
+    to: `Anafiya < ${ADMIN_EMAIL}>`,
     subject: `Payment Received - Order No# ${order._id} & Transaction ID ${order.paymentResult.id}`, // Subject line
     text: `We received your payment at ${order.paidAt}`, // plain text body
     html: `

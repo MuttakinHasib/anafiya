@@ -138,7 +138,7 @@ const UserInfoScreen = () => {
                 id='email'
                 name='email'
                 className={
-                  'text-gray-600 px-4 rounded-md text-gray-500 bg-gray-100 w-full border-none'
+                  'px-4 rounded-md text-gray-500 bg-gray-100 w-full border-none'
                 }
                 type='email'
                 value={email}

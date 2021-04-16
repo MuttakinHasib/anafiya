@@ -36,7 +36,7 @@ export const createOrder = order => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `${REACT_APP_SERVER_URL}/api/orders`,
+      `${process.env.REACT_APP_SERVER_URL}/api/orders`,
       order,
       config
     );
@@ -96,7 +96,7 @@ export const stripePayment = payload => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${REACT_APP_SERVER_URL}/api/orders/payment`,
+      `${process.env.REACT_APP_SERVER_URL}/api/orders/payment`,
       payload,
       config
     );
@@ -130,7 +130,7 @@ export const orderPaid = (orderId, paymentResult) => async (
     };
 
     await axios.post(
-      `${REACT_APP_SERVER_URL}/api/orders/${orderId}/paid`,
+      `${process.env.REACT_APP_SERVER_URL}/api/orders/${orderId}/paid`,
       paymentResult,
       config
     );
@@ -161,7 +161,7 @@ export const orderDelivered = orderId => async (dispatch, getState) => {
     };
 
     await axios.put(
-      `${REACT_APP_SERVER_URL}/api/orders/${orderId}/delivered`,
+      `${process.env.REACT_APP_SERVER_URL}/api/orders/${orderId}/delivered`,
       {},
       config
     );

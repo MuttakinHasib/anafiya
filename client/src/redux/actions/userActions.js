@@ -80,7 +80,7 @@ export const login = (email, password) => async dispatch => {
       },
     };
     const { data } = await axios.post(
-      `/api/users/login`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/login`,
       { email, password },
       config
     );
@@ -112,7 +112,7 @@ export const register = userData => async dispatch => {
       },
     };
     const { data } = await axios.post(
-      `${REACT_APP_SERVER_URL}/api/users/register`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/register`,
       userData,
       config
     );
@@ -143,7 +143,7 @@ export const userActivation = token => async dispatch => {
       },
     };
     const { data } = await axios.post(
-      `${REACT_APP_SERVER_URL}/api/users/activation`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/activation`,
       token,
       config
     );
@@ -177,7 +177,7 @@ export const googleSignIn = token => async dispatch => {
       },
     };
     const { data } = await axios.post(
-      `${REACT_APP_SERVER_URL}/api/users/googleSignIn`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/googleSignIn`,
       token,
       config
     );
@@ -211,7 +211,7 @@ export const facebookSignIn = token => async dispatch => {
       },
     };
     const { data } = await axios.post(
-      `/api/users/facebookSignIn`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/facebookSignIn`,
       token,
       config
     );
@@ -314,7 +314,7 @@ export const userProfileUpdate = userData => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.put(
-      `${REACT_APP_SERVER_URL}/api/users/profile`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/profile`,
       userData,
       config
     );
@@ -353,7 +353,7 @@ export const updateUser = (id, userData) => async (dispatch, getState) => {
       },
     };
     await axios.put(
-      `${REACT_APP_SERVER_URL}/api/users/${id}`,
+      `${process.env.REACT_APP_SERVER_URL}/api/users/${id}`,
       userData,
       config
     );
@@ -391,7 +391,10 @@ export const userDelete = id => async (dispatch, getState) => {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    await axios.delete(`${REACT_APP_SERVER_URL}/api/users/${id}`, config);
+    await axios.delete(
+      `${process.env.REACT_APP_SERVER_URL}/api/users/${id}`,
+      config
+    );
     dispatch({ type: USER_DELETE_SUCCESS });
     dispatch(getUserList());
 

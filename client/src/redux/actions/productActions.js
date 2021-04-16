@@ -147,7 +147,7 @@ export const updateProduct = (id, productData) => async (
     };
 
     await axios.put(
-      `${REACT_APP_SERVER_URL}/api/products/${id}`,
+      `${process.env.REACT_APP_SERVER_URL}/api/products/${id}`,
       productData,
       config
     );
@@ -176,7 +176,10 @@ export const deleteProduct = id => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`${REACT_APP_SERVER_URL}/api/products/${id}`, config);
+    await axios.delete(
+      `${process.env.REACT_APP_SERVER_URL}/api/products/${id}`,
+      config
+    );
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
     toast.success('Product Deleted successfully');

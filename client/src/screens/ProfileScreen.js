@@ -45,7 +45,7 @@ const ProfileScreen = () => {
       };
 
       const { data } = await axios.post(
-        `${REACT_APP_SERVER_URL}/api/upload/avatar`,
+        `${process.env.REACT_APP_SERVER_URL}/api/upload/avatar`,
         formData,
         config
       );

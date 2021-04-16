@@ -14,9 +14,10 @@ const ProductCreateScreen = () => {
   const [uploading, setUploading] = useState(false);
 
   const { user: userLogin } = useSelector(state => state.userLogin);
-  const { success: productCreateSuccess } = useSelector(
-    state => state.productCreate
-  );
+  const {
+    success: productCreateSuccess,
+    loading: productCreateLoading,
+  } = useSelector(state => state.productCreate);
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -89,7 +90,7 @@ const ProductCreateScreen = () => {
 
   return (
     <>
-      {uploading && <Loader />}
+      {(uploading || productCreateLoading) && <Loader />}
 
       <h3 className='text-gray-800 text-xl font-medium pb-3 border-b-2 mb-5'>
         Create New Product

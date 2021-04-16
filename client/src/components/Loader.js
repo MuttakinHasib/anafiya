@@ -11,7 +11,7 @@ const Loader = () => {
       className='fixed flex justify-center items-center w-screen h-screen text-center loading top-0 left-0'
       style={{ backgroundColor: '#0008', color: '#fff', zIndex: 20 }}
     >
-      <svg width='205' height='250' viewBox='0 0 40 50'>
+      <svg width='130' height='130' viewBox='0 0 40 50'>
         <polygon
           strokeWidth='1'
           stroke='#fff'

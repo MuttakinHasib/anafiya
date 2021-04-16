@@ -59,3 +59,206 @@ label:not(.upload-btn) {
   bottom: 0;
   transition: all 0.3s ease-in-out;
 }
+
+#align .hanger {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  margin: 10px auto;
+  height: 20px;
+  z-index: 2002;
+  top: 10px;
+}
+#align .hanger:after {
+  position: absolute;
+  content: 'hanger: 50%';
+  font-weight: bold;
+  left: 50%;
+  transform: translate(-50%);
+}
+#align .hanger:before {
+  position: absolute;
+  content: '';
+  font-weight: bold;
+  top: 100%;
+  left: 50%;
+  background: #333;
+  width: 2px;
+  height: 25px;
+}
+
+#align .anchor {
+  position: absolute;
+  font-weight: bold;
+  bottom: 5px;
+  left: 50%;
+  background: #333;
+  width: 2px;
+  height: 25px;
+  z-index: 10;
+}
+#align .anchor:after {
+  position: absolute;
+  content: 'anchor: 50%';
+  font-weight: bold;
+  left: -40px;
+  white-space: nowrap;
+  bottom: 100%;
+}
+
+#align .hanger1:after {
+  content: 'hanger: 0';
+  left: 0;
+}
+#align .hanger1:before {
+  left: 0;
+}
+#align .flicking1 .anchor {
+  left: 0;
+}
+#align .flicking1 .anchor:after {
+  content: 'anchor: 0';
+  left: 0;
+}
+
+#align .hanger2:after {
+  content: 'hanger: 30%';
+  left: 30%;
+}
+#align .hanger2:before {
+  left: 30%;
+}
+#align .flicking2 .anchor {
+  left: 50px;
+}
+#align .flicking2 .anchor:after {
+  content: 'anchor: 50px';
+  left: -20px;
+}
+#align .extra li:first-child {
+  margin-left: -20px;
+  list-style: none;
+}
+#bound .hanger {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  margin: 10px auto;
+  height: 20px;
+  z-index: 2002;
+  top: 10px;
+}
+#bound .hanger {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  margin: 10px auto;
+  height: 20px;
+  z-index: 2002;
+  top: 10px;
+}
+#bound .hanger:after {
+  position: absolute;
+  content: 'hanger: 50%';
+  font-weight: bold;
+  left: 50%;
+  transform: translate(-50%);
+}
+#bound .hanger:before {
+  position: absolute;
+  content: '';
+  font-weight: bold;
+  top: 100%;
+  left: 50%;
+  background: #333;
+  width: 2px;
+  height: 25px;
+}
+#bound .anchor {
+  position: absolute;
+  font-weight: bold;
+  bottom: 5px;
+  left: 50%;
+  background: #333;
+  width: 2px;
+  height: 25px;
+  z-index: 10;
+}
+#bound .anchor:after {
+  position: absolute;
+  content: 'anchor: 50%';
+  font-weight: bold;
+  left: -40px;
+  white-space: nowrap;
+  bottom: 100%;
+}
+#bound .hanger:after {
+  position: absolute;
+  content: 'hanger: 50%';
+  font-weight: bold;
+  left: 50%;
+  transform: translate(-50%);
+}
+#bound .hanger:before {
+  position: absolute;
+  content: '';
+  font-weight: bold;
+  top: 100%;
+  left: 50%;
+  background: #333;
+  width: 2px;
+  height: 25px;
+}
+#bound .anchor {
+  position: absolute;
+  font-weight: bold;
+  bottom: 5px;
+  left: 50%;
+  background: #333;
+  width: 2px;
+  height: 25px;
+  z-index: 10;
+}
+#bound .anchor:after {
+  position: absolute;
+  content: 'anchor: 50%';
+  font-weight: bold;
+  left: -40px;
+  white-space: nowrap;
+  bottom: 100%;
+}
+
+.hero-slide {
+  height: 300px !important;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.slide-image {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-slider .content {
+  position: relative;
+  z-index: 2;
+}
+
+@media screen and (max-width: 900px) {
+  .hero-slide {
+    height: 200px !important;
+  }
+}
+@media screen and (max-width: 600px) {
+  .hero-slide {
+    height: 120px !important;
+  }
+}

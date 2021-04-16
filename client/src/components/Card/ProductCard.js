@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 
 import { addToCart } from '../../redux/actions/cartActions';
 import Rating from '../Rating';
-import StockAlert from '../StockAlert';
 
 const ProductCard = ({ product, i }) => {
   const dispatch = useDispatch();
@@ -42,11 +41,13 @@ const ProductCard = ({ product, i }) => {
         <div className='flex justify-between items-center'>
           <Link
             to='/product/1'
-            className='text-base text-gray-700 hover:underline '
+            className='text-base text-gray-700 hover:underline flex-1'
           >
             {product?.name}
           </Link>
-          <small className='text-gray-400'>{product?.numReviews} reviews</small>
+          <small className='text-gray-400 ml-2'>
+            {product?.numReviews} reviews
+          </small>
         </div>
       </div>
       <div className='flex justify-between items-center px-5 py-3 border-t border-dotted'>
@@ -82,7 +83,13 @@ const ProductCard = ({ product, i }) => {
             <small>Add to cart</small>
           </button>
         ) : (
-          <StockAlert inStock={product?.countInStock > 0} />
+          <span className='relative inline-block px-3 py-1 font-semibold text-red-800 leading-tight'>
+            <span
+              aria-hidden
+              className='absolute inset-0 bg-red-200 opacity-50 rounded-full'
+            ></span>
+            <span className='relative text-xs'>Out of stock</span>
+          </span>
         )}
       </div>
     </motion.div>

@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 // import { Link } from 'react-router-dom';
-import { CheckoutSteps } from '../components';
+import { CheckoutSteps, Meta } from '../components';
 import { saveShippingAddress } from '../redux/actions/cartActions';
 
 const ShippingScreen = () => {
@@ -67,6 +67,7 @@ const ShippingScreen = () => {
       initial='hidden'
       animate='visible'
     >
+      <Meta title='Shipping address' />
       <CheckoutSteps step1 />
       <div className='grid gap-12 lg:grid-cols-3 mt-12 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
         <div className='lg:col-span-2 max-w-full lg:max-w-2xl'>

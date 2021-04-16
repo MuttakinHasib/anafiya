@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import ReactPaginate from 'react-paginate';
-import { Banner } from '../components';
+
 import ProductCard from '../components/Card/ProductCard';
 import Loader from '../components/Loader';
 import { getProductList } from '../redux/actions/productActions';
+import { Meta, Slider } from '../components';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,8 @@ const HomeScreen = () => {
   return (
     <motion.div exit={{ opacity: 0 }} initial='initial' animate='animate'>
       {loading && <Loader />}
-      <Banner />
+      <Meta />
+      <Slider />
       <motion.h1
         className='text-3xl font-semibold text-gray-700 mb-10'
         initial={{ opacity: 0 }}

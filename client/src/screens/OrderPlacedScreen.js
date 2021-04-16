@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import checkIcon from '../assets/check-icon.svg';
+import { Meta } from '../components';
 import Loader from '../components/Loader';
 import { orderDetails } from '../redux/actions/orderActions';
 
@@ -38,6 +39,7 @@ const OrderPlacedScreen = () => {
       initial='hidden'
       animate='visible'
     >
+      <Meta title='Order placed' />
       <div className='text-center mt-20'>
         <img className='mx-auto' src={checkIcon} alt='' />
         <h3 className='mt-5 mb-3 text-3xl text-gray-700 font-light'>
@@ -127,7 +129,7 @@ const OrderPlacedScreen = () => {
             </a>
           </div>
         </div>
-        {order?.paymentMethod === 'cashOnDelivery' && (
+        {(order?.paymentMethod === 'cashOnDelivery' || !order?.isPaid) && (
           <div className='bg-gray-100 p-3 mt-5 text-gray-700 text-center rounded-md'>
             The payment of ${order?.totalPrice} you’ll make when the courier
             arrives with your order.

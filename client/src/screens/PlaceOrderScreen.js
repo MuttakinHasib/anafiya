@@ -2,7 +2,8 @@ import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { CheckoutSteps } from '../components';
+import { CheckoutSteps, Meta } from '../components';
+import Loader from '../components/Loader';
 import { cartReset } from '../redux/actions/cartActions';
 import { createOrder } from '../redux/actions/orderActions';
 import {
@@ -17,7 +18,7 @@ const PlaceOrderScreen = () => {
 
   const { user } = useSelector(state => state.userLogin);
   const cart = useSelector(state => state.cart);
-  const { order, success } = useSelector(state => state.orderCreate);
+  const { order, success, loading } = useSelector(state => state.orderCreate);
 
   const addDecimals = num => (Math.round(num * 100) / 100).toFixed(2);
 
@@ -86,6 +87,8 @@ const PlaceOrderScreen = () => {
       initial='hidden'
       animate='visible'
     >
+      <Meta title='Place order' />
+      {loading && <Loader />}
       <CheckoutSteps step1 step2 step3 />
       <div className='grid gap-12 lg:grid-cols-3 mt-12 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
         <div className='lg:col-span-2 space-y-7'>
@@ -182,7 +185,10 @@ const PlaceOrderScreen = () => {
               </div>
               <div className='flex justify-between items-center border-b-2 border-dashed pb-5'>
                 <h4 className='text-lg font-semibold text-gray-700'>Total</h4>
-                <span className='text-base text-gray-600'>
+                <span
+                  className='text-lg font-semibold'
+                  style={{ color: '#f36' }}
+                >
                   ${cart?.totalPrice}
                 </span>
               </div>

@@ -2,27 +2,46 @@ import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { Rating, StockAlert } from '../components';
+import { Link } from 'react-router-dom';
+import { Meta, Rating, StockAlert } from '../components';
 import Loader from '../components/Loader';
 import { addToCart } from '../redux/actions/cartActions';
-import { getProductDetails } from '../redux/actions/productActions';
+import {
+  createProductReview,
+  getProductDetails,
+} from '../redux/actions/productActions';
 
 const ProductScreen = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(1);
+
   const productId = params.id;
   const dispatch = useDispatch();
+
+  const [quantity, setQuantity] = useState(1);
+  const [rating, setRating] = useState(1);
+  const [comment, setComment] = useState('');
+  const { user } = useSelector(state => state.userLogin);
+  const {
+    success: reviewCreatedSuccess,
+    loading: reviewCreatedLoading,
+  } = useSelector(state => state.productReviewCreate);
   const { product, loading } = useSelector(state => state.productDetails);
 
   useEffect(() => dispatch(getProductDetails(productId)), [
     dispatch,
     productId,
+    reviewCreatedSuccess,
   ]);
 
   const addToCartHandler = () => {
     dispatch(addToCart(productId, quantity));
     navigate(`/cart/${productId}?qty=${quantity}`);
+  };
+
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch(createProductReview(productId, { rating, comment }));
   };
 
   return loading ? (
@@ -35,6 +54,8 @@ const ProductScreen = () => {
       transition={{ duration: 0.5 }}
       className='space-y-5 divide-y divide-gray-100'
     >
+      <Meta title={product?.name} />
+      {reviewCreatedLoading && <Loader />}
       <div className='grid gap-14 md:grid-cols-2 pb-10'>
         <motion.img
           exit={{ opacity: 0 }}
@@ -123,67 +144,81 @@ const ProductScreen = () => {
             <h3 className='text-gray-700 text-2xl mb-10'>
               Ratings & Reviews of {product?.name}
             </h3>
+            {product?.numReviews === 0 && (
+              <h4 className='text-red-400'>
+                This product has no reviews. <br /> Let others know what do you
+                think and be the first to write a review.
+              </h4>
+            )}
             <div className='divide-y divide-gray-200'>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: -20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { staggerChildren: 0.5 },
-                  },
-                }}
-                initial='hidden'
-                animate='visible'
-                className='space-y-3'
-              >
-                <div className='flex items-center space-x-5'>
-                  <img
-                    src='https://res.cloudinary.com/muttakinhasib/image/upload/v1611336104/avatar/user_qcrqny.svg'
-                    alt=''
-                    className='w-10'
-                  />
-                  <div>
-                    <h2>Hasib Molla</h2>
-                    <Rating value={product?.rating} />
+              {product?.reviews.map(review => (
+                <motion.div
+                  key={review?._id}
+                  variants={{
+                    hidden: { opacity: 0, y: -20 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { staggerChildren: 0.5 },
+                    },
+                  }}
+                  initial='hidden'
+                  animate='visible'
+                  className='space-y-3'
+                >
+                  <div className='flex items-center space-x-5'>
+                    <img src={review?.avatar} alt='' className='w-10' />
+                    <div>
+                      <h2>{review?.name}</h2>
+                      <Rating value={review?.rating} />
+                    </div>
                   </div>
-                </div>
-                <p className='prose max-w-lg'>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id,
-                  enim!
-                </p>
-              </motion.div>
+                  <p className='prose max-w-lg'>{review?.comment}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
-          <div>
-            <h3 className='text-gray-700 text-2xl mb-10'>
-              Write a customer review
+          {user ? (
+            <div>
+              <h3 className='text-gray-700 text-2xl mb-10'>
+                Write a customer review
+              </h3>
+              <form {...{ onSubmit }}>
+                <div className='flex flex-col space-y-5'>
+                  <select
+                    className='w-full lg:w-2/3 border-none bg-gray-100 rounded-md focus:ring-purple-100'
+                    name='quantity'
+                    id='quantity'
+                    onChange={e => setRating(e.target.value)}
+                  >
+                    <option value=''>Select Rating...</option>
+                    <option value='1'>1 - Poor</option>
+                    <option value='2'>2 - Fair</option>
+                    <option value='3'>3 - Good</option>
+                    <option value='4'>4 - Very Good</option>
+                    <option value='5'>5 - Excellent</option>
+                  </select>
+                  <textarea
+                    className='w-full lg:w-2/3 border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-5 overflow-hidden'
+                    type='text'
+                    placeholder='Comment'
+                    onChange={e => setComment(e.target.value)}
+                  />
+                  <button className='w-40 bg-gray-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 rounded-md transition-shadow duration-300'>
+                    Submit Review
+                  </button>
+                </div>
+              </form>
+            </div>
+          ) : (
+            <h3 className='text-gray-700 text-lg mb-10'>
+              Please{' '}
+              <Link to='/login' className='text-blue-500 hover:underline'>
+                Sign in
+              </Link>{' '}
+              to write a review
             </h3>
-            <form>
-              <div className='flex flex-col space-y-5'>
-                <select
-                  className='w-full lg:w-2/3 border-none bg-gray-100 rounded-md focus:ring-purple-100'
-                  name='quantity'
-                  id='quantity'
-                >
-                  <option value=''>Select Rating...</option>
-                  <option value='1'>1 - Poor</option>
-                  <option value='2'>2 - Fair</option>
-                  <option value='3'>3 - Good</option>
-                  <option value='4'>4 - Very Good</option>
-                  <option value='5'>5 - Excellent</option>
-                </select>
-                <textarea
-                  className='w-full lg:w-2/3 border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-5 overflow-hidden'
-                  type='text'
-                  placeholder='Comment'
-                />
-                <button className='w-40 bg-gray-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 rounded-md transition-shadow duration-300'>
-                  Submit Review
-                </button>
-              </div>
-            </form>
-          </div>
+          )}
         </div>
       </motion.div>
     </motion.div>

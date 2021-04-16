@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
-import { Alert } from '../components';
+import { Alert, Meta } from '../components';
 import Loader from '../components/Loader';
 import {
   orderDelivered,
@@ -16,6 +16,7 @@ import {
   ORDER_PAY_RESET,
   STRIPE_PAYMENT_RESET,
 } from '../redux/actions/types';
+import logo from '../assets/anafiya_logo.webp';
 
 const OrderScreen = () => {
   const params = useParams();
@@ -26,13 +27,18 @@ const OrderScreen = () => {
 
   const { user } = useSelector(state => state.userLogin);
   const { order, loading } = useSelector(state => state.orderDetails);
-  const { paymentResult, success: stripePaymentSuccess } = useSelector(
-    state => state.stripePayment
+  const {
+    paymentResult,
+    success: stripePaymentSuccess,
+    loading: stripePaymentLoading,
+  } = useSelector(state => state.stripePayment);
+  const { success: orderPaidSuccess, loading: orderPayLoading } = useSelector(
+    state => state.orderPay
   );
-  const { success: orderPaidSuccess } = useSelector(state => state.orderPay);
-  const { success: orderDeliveredSuccess } = useSelector(
-    state => state.orderDelivered
-  );
+  const {
+    success: orderDeliveredSuccess,
+    loading: orderDeliveredLoading,
+  } = useSelector(state => state.orderDelivered);
 
   useEffect(() => {
     dispatch({ type: ORDER_DETAILS_RESET });
@@ -97,6 +103,10 @@ const OrderScreen = () => {
       initial='hidden'
       animate='visible'
     >
+      <Meta title='Your order information' />
+      {(stripePaymentLoading || orderPayLoading || orderDeliveredLoading) && (
+        <Loader />
+      )}
       <h2 className='text-center text-2xl text-green-500'>
         Order No #{order?._id}
       </h2>
@@ -214,7 +224,10 @@ const OrderScreen = () => {
               </div>
               <div className='flex justify-between items-center'>
                 <h4 className='text-lg font-semibold text-gray-700'>Total</h4>
-                <span className='text-base text-gray-600'>
+                <span
+                  className='text-lg font-semibold'
+                  style={{ color: '#f36' }}
+                >
                   ${order?.totalPrice}
                 </span>
               </div>
@@ -234,7 +247,7 @@ const OrderScreen = () => {
                   name='Anafiya'
                   // billingAddress
                   // shoppingAddress
-                  image='https://stripe.com/img/documentation/checkout/marketplace.png'
+                  image='https://cdn.shopify.com/s/files/1/1252/6423/files/fav-icon-192.png?v=1582753191'
                   description={`Total price is  $${order?.totalPrice}`}
                   amount={order?.totalPrice * 100}
                   panelLabel='Pay'

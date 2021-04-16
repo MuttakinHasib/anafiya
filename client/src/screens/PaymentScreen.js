@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { CheckoutSteps } from '../components';
+import { CheckoutSteps, Meta } from '../components';
 import { savePaymentMethod } from '../redux/actions/cartActions';
 
 const PaymentScreen = () => {
@@ -27,7 +27,7 @@ const PaymentScreen = () => {
   };
 
   const stagger = {
-    hidden: { opacity: 0,},
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
@@ -44,6 +44,7 @@ const PaymentScreen = () => {
       initial='hidden'
       animate='visible'
     >
+      <Meta title='Select payment method' />
       <CheckoutSteps step1 step2 />
       <div className='grid gap-12 lg:grid-cols-3 mt-12 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
         <div className='lg:col-span-2 '>

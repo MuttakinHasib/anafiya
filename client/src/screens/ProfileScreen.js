@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router';
-import { NavLink } from '../components';
+import { Meta, NavLink } from '../components';
 import Loader from '../components/Loader';
 
 import {
@@ -72,6 +72,7 @@ const ProfileScreen = () => {
       className='grid gap-10 lg:grid-cols-7'
     >
       {(loading || uploading) && <Loader />}
+      <Meta title={`${user?.firstName} ${user?.lastName} || Profile`} />
       <div className='lg:col-span-2'>
         <div className='shadow-lg p-5 space-y-8 max-w-xl lg:max-w-full mx-auto'>
           <div className='text-center space-y-3'>

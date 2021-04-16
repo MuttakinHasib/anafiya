@@ -13,6 +13,9 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  PRODUCT_REVIEW_CREATE_FAIL,
+  PRODUCT_REVIEW_CREATE_REQUEST,
+  PRODUCT_REVIEW_CREATE_SUCCESS,
   PRODUCT_UPDATE_FAIL,
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
@@ -91,6 +94,37 @@ export const createProduct = productData => async (dispatch, getState) => {
         : err.message;
     toast.error(error);
     dispatch({ type: PRODUCT_CREATE_FAIL, payload: error });
+  }
+};
+
+// Create PRODUCT ACTION
+export const createProductReview = (productId, review) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: PRODUCT_REVIEW_CREATE_REQUEST });
+    const { user } = getState().userLogin;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `/api/products/${productId}`,
+      review,
+      config
+    );
+    dispatch({ type: PRODUCT_REVIEW_CREATE_SUCCESS, payload: data });
+    toast.success('Added product');
+  } catch (err) {
+    const error =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message;
+    toast.error(error);
+    dispatch({ type: PRODUCT_REVIEW_CREATE_FAIL, payload: error });
   }
 };
 

@@ -10,6 +10,7 @@ import {
   login,
 } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const LoginScreen = () => {
   // loginError && toast.error(loginError);
   return (
     <div className='grid gap-15 md:grid-cols-2 mt-20'>
+      <Meta title='Login Page' />
       {loginLoading && <Loader />}
       <div className='m-auto'>
         <h2 className='text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-gray-700'>

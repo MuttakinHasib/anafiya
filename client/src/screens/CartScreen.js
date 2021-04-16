@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import emptyCartImg from '../assets/empty-cart.svg';
+import { Meta } from '../components';
 import Loader from '../components/Loader';
 import { addToCart, removeCartItem } from '../redux/actions/cartActions';
 
@@ -42,6 +43,7 @@ const CartScreen = () => {
       animate='visible'
       className='space-y-10'
     >
+      <Meta title='Your shopping cart list' />
       <Link
         to='/'
         className='py-3 px-5 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-300'
@@ -62,6 +64,7 @@ const CartScreen = () => {
       initial='hidden'
       animate='visible'
     >
+      <Meta title='Your shopping cart list' />
       {cartLoading && <Loader />}
       <h2 className='text-4xl text-gray-700 mb-10'>Your Shopping Cart</h2>
       <div className='grid gap-12 lg:grid-cols-3 max-w-sm sm:max-w-md md:max-w-xl lg:max-w-full mx-auto'>
@@ -73,7 +76,10 @@ const CartScreen = () => {
           className='lg:col-span-2 overflow-auto divide-y-2'
         >
           {cartItems?.map(item => (
-            <div className='flex md:flex-row flex-col md:justify-between md:items-center md:space-x-8 space-y-3 py-3 pb-4'>
+            <div
+              key={item.product}
+              className='flex md:flex-row flex-col md:justify-between md:items-center md:space-x-8 space-y-3 py-3 pb-4'
+            >
               <img className='w-2/3 mx-auto md:w-20' src={item?.image} alt='' />
               <Link
                 to={`/product/${item?.product}`}

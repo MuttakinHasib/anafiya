@@ -59,7 +59,7 @@ const ProductCreateScreen = () => {
       };
 
       const { data } = await axios.post(
-        `/api/upload/product`,
+        `${process.env.REACT_APP_SERVER_URL}/api/upload/product`,
         formData,
         config
       );

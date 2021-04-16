@@ -28,6 +28,7 @@ import {
   ProductEditScreen,
   ProductCreateScreen,
   OrderListScreen,
+  NotFoundScreen,
 } from './screens';
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
                 />
               </Route>
               {/* End Dashboard Routes */}
+              <Route path='*' element={<NotFoundScreen />} />
             </Routes>
           </AnimatePresence>
         </Container>

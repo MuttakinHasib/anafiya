@@ -22,3 +22,5 @@ export { default as ChangePasswordScreen } from './ChangePasswordScreen';
 export { default as RegisterScreen } from './RegisterScreen';
 export { default as UserActivationScreen } from './UserActivationScreen';
 export { default as LoginScreen } from './LoginScreen';
+
+export { default as NotFoundScreen } from './NotFoundScreen';

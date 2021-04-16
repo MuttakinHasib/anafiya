@@ -34,7 +34,7 @@ export const getProductList = (
       },
     };
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`,
+      `${process.env.REACT_APP_SERVER_URL}/api/products?keyword=${keyword}&pageNumber=${pageNumber}`,
       config
     );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
@@ -84,7 +84,7 @@ export const createProduct = productData => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `/api/products/create`,
+      `${process.env.REACT_APP_SERVER_URL}/api/products/create`,
       productData,
       config
     );
@@ -115,7 +115,7 @@ export const createProductReview = (productId, review) => async (
       },
     };
     const { data } = await axios.post(
-      `/api/products/${productId}`,
+      `${process.env.REACT_APP_SERVER_URL}/api/products/${productId}`,
       review,
       config
     );

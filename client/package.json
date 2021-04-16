@@ -2,7 +2,6 @@
   "name": "anafiya",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://api-anafiya.herokuapp.com",
   "dependencies": {
     "@craco/craco": "^6.1.1",
     "@headlessui/react": "^0.3.2",

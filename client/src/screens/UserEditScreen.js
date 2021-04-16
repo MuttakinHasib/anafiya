@@ -59,7 +59,11 @@ const UserEditScreen = () => {
         },
       };
 
-      const { data } = await axios.post(`/api/upload/avatar`, formData, config);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/upload/avatar`,
+        formData,
+        config
+      );
       dispatch(updateUser(user?._id, { avatar: data.url, isAdmin }));
 
       setUploading(false);

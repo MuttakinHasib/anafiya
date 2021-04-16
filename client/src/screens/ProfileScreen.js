@@ -44,7 +44,11 @@ const ProfileScreen = () => {
         },
       };
 
-      const { data } = await axios.post(`/api/upload/avatar`, formData, config);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/upload/avatar`,
+        formData,
+        config
+      );
       dispatch(userProfileUpdate({ avatar: data.url }));
       setUploading(false);
     } catch (err) {}

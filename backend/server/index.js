@@ -40,7 +40,7 @@ app.use(
 // Routes
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to anafiya shop' });
+  res.json({ message: 'Welcome to anafiya shop.' });
 });
 
 app.use('/api/users', userRoutes);

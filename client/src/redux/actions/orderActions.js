@@ -35,7 +35,11 @@ export const createOrder = order => async (dispatch, getState) => {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    const { data } = await axios.post(`/api/orders`, order, config);
+    const { data } = await axios.post(
+      `${REACT_APP_SERVER_URL}/api/orders`,
+      order,
+      config
+    );
 
     dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
     toast.success('Order created');
@@ -61,7 +65,10 @@ export const orderDetails = id => async (dispatch, getState) => {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    const { data } = await axios.get(`/api/orders/${id}`, config);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/orders/${id}`,
+      config
+    );
 
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
   } catch (err) {
@@ -88,7 +95,11 @@ export const stripePayment = payload => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/orders/payment`, payload, config);
+    const { data } = await axios.post(
+      `${REACT_APP_SERVER_URL}/api/orders/payment`,
+      payload,
+      config
+    );
 
     dispatch({ type: STRIPE_PAYMENT_SUCCESS, payload: data });
   } catch (err) {
@@ -118,7 +129,11 @@ export const orderPaid = (orderId, paymentResult) => async (
       },
     };
 
-    await axios.post(`/api/orders/${orderId}/paid`, paymentResult, config);
+    await axios.post(
+      `${REACT_APP_SERVER_URL}/api/orders/${orderId}/paid`,
+      paymentResult,
+      config
+    );
 
     dispatch({ type: ORDER_PAY_SUCCESS });
   } catch (err) {
@@ -145,7 +160,11 @@ export const orderDelivered = orderId => async (dispatch, getState) => {
       },
     };
 
-    await axios.put(`/api/orders/${orderId}/delivered`, {}, config);
+    await axios.put(
+      `${REACT_APP_SERVER_URL}/api/orders/${orderId}/delivered`,
+      {},
+      config
+    );
 
     dispatch({ type: ORDER_DELIVERED_SUCCESS });
   } catch (err) {
@@ -173,7 +192,10 @@ export const getUserOrdersList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/orders/userOrders`, config);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/orders/userOrders`,
+      config
+    );
 
     dispatch({ type: USER_ORDERS_LIST_SUCCESS, payload: data });
   } catch (err) {
@@ -200,7 +222,10 @@ export const getOrderList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/orders`, config);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/orders`,
+      config
+    );
 
     dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
   } catch (err) {

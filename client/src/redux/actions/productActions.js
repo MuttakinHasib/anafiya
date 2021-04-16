@@ -57,7 +57,10 @@ export const getProductDetails = id => async dispatch => {
         'Content-Type': 'application/json',
       },
     };
-    const { data } = await axios.get(`/api/products/${id}`, config);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/products/${id}`,
+      config
+    );
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (err) {
     const error =
@@ -143,7 +146,11 @@ export const updateProduct = (id, productData) => async (
       },
     };
 
-    await axios.put(`/api/products/${id}`, productData, config);
+    await axios.put(
+      `${REACT_APP_SERVER_URL}/api/products/${id}`,
+      productData,
+      config
+    );
 
     dispatch({ type: PRODUCT_UPDATE_SUCCESS });
     toast.success('Product updated successfully');
@@ -169,7 +176,7 @@ export const deleteProduct = id => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/products/${id}`, config);
+    await axios.delete(`${REACT_APP_SERVER_URL}/api/products/${id}`, config);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
     toast.success('Product Deleted successfully');

@@ -120,7 +120,7 @@ export const createProductReview = (productId, review) => async (
       config
     );
     dispatch({ type: PRODUCT_REVIEW_CREATE_SUCCESS, payload: data });
-    toast.success('Added product');
+    toast.success('Review Added');
   } catch (err) {
     const error =
       err.response && err.response.data.message

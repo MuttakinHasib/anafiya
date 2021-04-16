@@ -146,16 +146,16 @@ const OrderScreen = () => {
             </div>
           </div>
           <div>
-            <div className='flex items-center space-x-5'>
+            <div className='flex sm:flex-row flex-col sm:items-center space-y-5 sm:space-y-0 sm:space-x-5'>
               <h2 className='text-2xl text-gray-600'>Order Status</h2>
-              <div>
+              <div className='whitespace-nowrap'>
                 {order?.isPaid ? (
                   <Alert success title='Paid' />
                 ) : (
                   <Alert title='Not Paid' />
                 )}
               </div>
-              <div>
+              <div className='whitespace-nowrap'>
                 {order?.isDelivered ? (
                   <Alert success title={`Delivered`} />
                 ) : (

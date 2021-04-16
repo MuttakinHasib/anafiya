@@ -16,7 +16,6 @@ import {
   ORDER_PAY_RESET,
   STRIPE_PAYMENT_RESET,
 } from '../redux/actions/types';
-import logo from '../assets/anafiya_logo.webp';
 
 const OrderScreen = () => {
   const params = useParams();

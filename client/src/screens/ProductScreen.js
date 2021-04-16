@@ -189,6 +189,7 @@ const ProductScreen = () => {
                     className='w-full lg:w-2/3 border-none bg-gray-100 rounded-md focus:ring-purple-100'
                     name='quantity'
                     id='quantity'
+                    required
                     onChange={e => setRating(e.target.value)}
                   >
                     <option value=''>Select Rating...</option>
@@ -203,6 +204,7 @@ const ProductScreen = () => {
                     type='text'
                     placeholder='Comment'
                     onChange={e => setComment(e.target.value)}
+                    required
                   />
                   <button className='w-40 bg-gray-900 focus:outline-none focus:ring-4 focus:ring-purple-200 text-white px-5 py-2 rounded-md transition-shadow duration-300'>
                     Submit Review

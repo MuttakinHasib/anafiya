@@ -85,10 +85,10 @@ export const sendOrderCreateEmail = order => {
     to: `${order?.shippingAddress?.name} < ${order?.shippingAddress?.email}>`,
     subject: `Anafiya - Order No# ${order._id}`,
     text:
-      'Thank you for your interest in Proshop products. Your order has been received and will be processed once payment has been confirmed.', // plain text body
+      'Thank you for your interest in Anafiya products. Your order has been received and will be processed once payment has been confirmed.', // plain text body
     html: `
       <div style='margin-bottom: 10px;'>
-        <h4>Thank you for your interest in Proshop products. . Your order has been received and will be processed once payment has been confirmed.</h4>
+        <h4>Thank you for your interest in Anafiya products. Your order has been received and will be processed once payment has been confirmed.</h4>
       </div>
       ${orderTables(order)}
     `,
@@ -163,6 +163,7 @@ export const sendOrderPaidEmail = order => {
     from: `Anafiya < ${ADMIN_EMAIL}>`,
     to: `${order?.shippingAddress?.name} < ${order?.shippingAddress?.email}>`,
     subject: `Payment Received - Order No# ${order._id} & Transaction ID ${order.paymentResult.id}`, // Subject line
+    text: `We received your payment at ${order.paidAt}`, // plain text body
     html: `
         <div style='margin-bottom: 10px;'>
           <h2>Received payment at ${order.paidAt}</h2>
@@ -205,7 +206,6 @@ export const sendOrderPaidEmailToAdmin = order => {
     from: `Anafiya < ${ADMIN_EMAIL}>`,
     to: `Anafiya < ${ADMIN_EMAIL}>`,
     subject: `Payment Received - Order No# ${order._id} & Transaction ID ${order.paymentResult.id}`, // Subject line
-    text: `We received your payment at ${order.paidAt}`, // plain text body
     html: `
         <div style='margin-bottom: 10px;'>
           <h2>We received your payment at ${order.paidAt}</h2>

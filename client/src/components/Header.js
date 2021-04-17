@@ -365,7 +365,7 @@ const Header = () => {
             <form className='block sm:hidden' {...{ onSubmit }}>
               <div className='relative inline-block'>
                 <input
-                  className='text-sm border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-4 py-2 overflow-hidden'
+                  className='text-sm z-0 border-none focus:ring-gray-200 transition-shadow duration-500 rounded-md bg-gray-100 px-4 py-2 overflow-hidden'
                   type='text'
                   placeholder='Search here...'
                   onChange={e => setKeyword(e.target.value)}
@@ -375,7 +375,7 @@ const Header = () => {
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'
-                  className='w-4 cursor-pointer p-2 box-content absolute top-2/4 right-2 transform -translate-y-2/4 text-gray-600'
+                  className='w-4 z-10 cursor-pointer p-2 box-content absolute top-2/4 right-2 transform -translate-y-2/4 text-gray-600'
                   onClick={onSubmit}
                 >
                   <path

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getOrderList } from '../redux/actions/orderActions';
-import emptyImg from '../assets/empty.svg';
 import { motion } from 'framer-motion';
+
+import emptyImg from '../assets/empty.svg';
+import { getOrderList } from '../redux/actions/orderActions';
+import Loader from '../components/Loader';
 
 const OrderListScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { orders } = useSelector(state => state.orderList);
+  const { orders, loading } = useSelector(state => state.orderList);
 
   useEffect(() => {
     dispatch(getOrderList());
@@ -31,6 +33,7 @@ const OrderListScreen = () => {
       <h3 className='text-gray-800 text-2xl pb-3 border-b-2 mb-5 font-medium'>
         Order List
       </h3>
+      {loading && <Loader />}
       {orders?.length === 0 ? (
         <div className='space-y-10'>
           <div className='flex justify-center items-center mt-20'>

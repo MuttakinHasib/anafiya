@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 
 import emptyImg from '../assets/empty.svg';
 import { deleteProduct, getProductList } from '../redux/actions/productActions';
+import Loader from '../components/Loader';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const ProductListScreen = () => {
   const [pages, setPages] = useState(1);
 
   const { user: userLogin } = useSelector(state => state.userLogin);
-  const { products, pages: totalPage } = useSelector(
+  const { products, pages: totalPage, loading } = useSelector(
     state => state.productList
   );
   const { success: deleteProductSuccess } = useSelector(
@@ -58,7 +59,7 @@ const ProductListScreen = () => {
     <>
       <div className='flex flex-col sm:flex-row sm:space-y-0 space-y-3 sm:items-center sm:justify-between pb-3 border-b-2 mb-5'>
         <h3 className='text-gray-800 text-2xl font-medium'>Product Details</h3>
-
+        {loading && <Loader />}
         <button
           className='bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 transition-colors duration-300 flex items-center'
           onClick={() => navigate('/profile/products/create')}

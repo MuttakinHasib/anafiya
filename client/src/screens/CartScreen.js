@@ -48,7 +48,7 @@ const CartScreen = () => {
         to='/'
         className='py-3 px-5 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-300'
       >
-        Go Back
+        Go Home
       </Link>
       <div className='flex justify-center items-center mt-20'>
         <img src={emptyCartImg} width='250' height='250' alt='' />

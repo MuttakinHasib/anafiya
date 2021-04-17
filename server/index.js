@@ -24,8 +24,6 @@ const port = process.env.PORT || 5000;
 // Bypass cors
 app.use(cors());
 
-const __dirname = path.resolve();
-
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
   9;

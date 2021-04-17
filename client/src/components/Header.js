@@ -12,7 +12,10 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const innerRef = useMenuHandler(() => setIsOpen(false));
+  const innerRef = useMenuHandler(() => {
+    setIsOpen(false);
+    setOpenMenu(false);
+  });
   const { user } = useSelector(({ userLogin }) => userLogin);
   const { cartItems } = useSelector(({ cart }) => cart);
 
@@ -107,7 +110,10 @@ const Header = () => {
                   className='flex text-sm rounded-full focus:outline-none items-center'
                   id='user-menu'
                   aria-haspopup='true'
-                  onClick={() => setIsOpen(prev => !prev)}
+                  onClick={() => {
+                    setIsOpen(prev => !prev);
+                    setOpenMenu(prev => !prev);
+                  }}
                 >
                   <span className='sr-only'>Open user menu</span>
                   <img
@@ -297,6 +303,7 @@ const Header = () => {
                     leave='transition ease-in duration-75'
                     leaveFrom='transform opacity-100 scale-100'
                     leaveTo='transform opacity-0 scale-95'
+                    className='z-50'
                   >
                     <div
                       ref={innerRef}

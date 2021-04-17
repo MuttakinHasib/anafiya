@@ -112,7 +112,7 @@ const Header = () => {
                   aria-haspopup='true'
                   onClick={() => {
                     setIsOpen(prev => !prev);
-                    setOpenMenu(prev => !prev);
+                    setOpenMenu(false);
                   }}
                 >
                   <span className='sr-only'>Open user menu</span>

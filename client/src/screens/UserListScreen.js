@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import emptyImg from '../assets/not-found.svg';
+import Loader from '../components/Loader';
 import { getUserList, userDelete } from '../redux/actions/userActions';
 
 const UserListScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user: userLogin } = useSelector(state => state.userLogin);
-  const { users } = useSelector(state => state.userList);
+  const { users, loading } = useSelector(state => state.userList);
 
   useEffect(() => {
     if (!userLogin?.isAdmin) {
@@ -49,6 +50,7 @@ const UserListScreen = () => {
         </div>
       ) : (
         <div className='overflow-x-auto mt-6'>
+          {loading && <Loader />}
           <motion.table
             exit={{ opacity: 0 }}
             variants={stagger}

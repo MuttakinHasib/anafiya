@@ -45,13 +45,18 @@ export const activeUserAccount = asyncHandler(async (req, res) => {
   }
 
   // Creating new user
-  const user = await User.create({ firstName, lastName, email, password });
+  const user = await User.create({
+    firstName,
+    lastName: lastName || '',
+    email,
+    password,
+  });
 
   if (user) {
     res.status(201).json({
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user?.lastName,
       avatar: user.avatar,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -73,7 +78,7 @@ export const login = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user?.lastName,
       avatar: user.avatar,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -190,7 +195,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user?.lastName,
       avatar: user.avatar,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -209,7 +214,7 @@ export const getUserById = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user?.lastName,
       avatar: user.avatar,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -268,7 +273,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     res.json({
       _id: updateUser._id,
       firstName: updateUser.firstName,
-      lastName: updateUser.lastName,
+      lastName: updateUser?.lastName,
       avatar: updateUser.avatar,
       email: updateUser.email,
       isAdmin: updateUser.isAdmin,
@@ -288,17 +293,16 @@ export const updateUser = asyncHandler(async (req, res) => {
     user.lastName = req.body.lastName || user.lastName;
     user.avatar = req.body.avatar || user.avatar;
     user.isAdmin = req.body.isAdmin;
-    
+
     if (req.body.avatar) {
       user.avatar = req.body.avatar;
     }
-
 
     const updateUser = await user.save();
     res.json({
       _id: updateUser._id,
       firstName: updateUser.firstName,
-      lastName: updateUser.lastName,
+      lastName: updateUser?.lastName,
       avatar: updateUser.avatar,
       email: updateUser.email,
       isAdmin: updateUser.isAdmin,

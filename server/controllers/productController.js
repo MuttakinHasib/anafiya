@@ -108,7 +108,7 @@ export const createProductReview = asyncHandler(async (req, res) => {
     console.log(req.user);
 
     const review = {
-      name: `${req.user.firstName} ${req.user.lastName}`,
+      name: `${req?.user?.firstName} ${req?.user?.lastName}`,
       avatar: req.user.avatar,
       comment,
       rating: Number(rating),

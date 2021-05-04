@@ -156,7 +156,7 @@ export const facebookAuth = asyncHandler(async (req, res) => {
     return res.json({
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user?.lastName || '',
       avatar: user.avatar,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -173,7 +173,7 @@ export const facebookAuth = asyncHandler(async (req, res) => {
       res.json({
         _id: newUser._id,
         firstName: newUser.firstName,
-        lastName: newUser?.lastName,
+        lastName: newUser?.lastName || '',
         avatar: newUser.avatar,
         email: newUser.email,
         isAdmin: newUser.isAdmin,
@@ -190,7 +190,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user.lastName || '',
       avatar: user.avatar,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -209,7 +209,7 @@ export const getUserById = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user.lastName || '',
       avatar: user.avatar,
       email: user.email,
       isAdmin: user.isAdmin,
@@ -268,7 +268,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     res.json({
       _id: updateUser._id,
       firstName: updateUser.firstName,
-      lastName: updateUser.lastName,
+      lastName: updateUser.lastName || '',
       avatar: updateUser.avatar,
       email: updateUser.email,
       isAdmin: updateUser.isAdmin,
@@ -298,7 +298,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     res.json({
       _id: updateUser._id,
       firstName: updateUser.firstName,
-      lastName: updateUser.lastName,
+      lastName: updateUser?.lastName || '',
       avatar: updateUser.avatar,
       email: updateUser.email,
       isAdmin: updateUser.isAdmin,

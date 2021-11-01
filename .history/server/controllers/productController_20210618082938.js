@@ -1,6 +1,5 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/Product.js';
-import {validationProduct} from '../utils/validationsData';
 
 // Get All Products
 export const getProducts = asyncHandler(async (req, res) => {
@@ -33,10 +32,6 @@ export const getProductById = asyncHandler(async (req, res) => {
 
 // Create Product
 export const createProduct = asyncHandler(async (req, res) => {
-  const {err} = validationProduct(req.body);
-  if (err) {
-    return res.status(400).json({messege: err});
-  }
   const {
     name,
     price,

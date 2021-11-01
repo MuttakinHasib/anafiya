@@ -33,10 +33,6 @@ export const getProductById = asyncHandler(async (req, res) => {
 
 // Create Product
 export const createProduct = asyncHandler(async (req, res) => {
-  const {err} = validationProduct(req.body);
-  if (err) {
-    return res.status(400).json({messege: err});
-  }
   const {
     name,
     price,

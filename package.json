@@ -11,6 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node server/seeder.js",
     "data:destroy": "node server/seeder -d",
+    "build:client": "npm install --prefix client && npm run build --prefix client",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [

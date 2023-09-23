@@ -14,19 +14,44 @@ const client = new OAuth2(process.env.GOOGLE_CLIENT_ID);
 // Register New User
 
 export const register = asyncHandler(async (req, res) => {
-  const { email } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
     throw new Error('User already exists');
   }
-  const activationToken = createActivationToken(req.body);
-  const url = `${process.env.CLIENT_URI}/user/active/${activationToken}`;
 
-  await sendActivationEmail(email, url);
 
-  res.json({ message: `Account activation email has sent to ${email}` });
+  if (userExists) {
+    res.status(400);
+    throw new Error('User already exists');
+  }
+
+  // Creating new user
+  const user = await User.create({ firstName, lastName, email, password });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatar,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateIdToken(user._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  // const activationToken = createActivationToken(req.body);
+  // const url = `${process.env.CLIENT_URI}/user/active/${activationToken}`;
+
+  // await sendActivationEmail(email, url);
+
+  // res.json({ message: `Account activation email has sent to ${email}` });
 });
 
 // User Activation

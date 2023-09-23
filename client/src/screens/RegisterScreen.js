@@ -131,7 +131,7 @@ const RegisterScreen = () => {
             Create Account
           </button>
         </form>
-        <div className='px-10'>
+        {/* <div className='px-10'>
           <div className='flex items-center space-x-5 mb-8'>
             <div style={{ height: '1px' }} className='w-full bg-gray-300'></div>
             <p className='flex-1 whitespace-nowrap text-base text-gray-400'>
@@ -182,7 +182,7 @@ const RegisterScreen = () => {
               )}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
     // </div>

@@ -116,16 +116,21 @@ export const register = userData => async dispatch => {
       userData,
       config
     );
-    toast.success(data.message);
+    // toast.success(data.message);
     // console.log(data);
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
+    dispatch({ type: USER_REGISTER_ACTIVATION_SUCCESS, payload: data });
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    toast.success('User activation successful');
+
+    localStorage.setItem('anafiya_userInfo', JSON.stringify(data));
   } catch (err) {
     const error =
       err.response && err.response.data.message
         ? err.response.data.message
         : err.message;
     dispatch({
-      type: USER_REGISTER_FAIL,
+      type: USER_REGISTER_ACTIVATION_FAIL,
       payload: error,
     });
   }

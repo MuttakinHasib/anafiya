@@ -1,16 +1,16 @@
-import './env.js';
-import 'colors';
-import path from 'path';
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
-import fileUpload from 'express-fileupload';
-import { errorHandler, notFound } from './middleware/error.js';
-import connectDB from './config/db.js';
-import userRoutes from './routes/userRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
-import uploadRoutes from './routes/uploadRoutes.js';
+import "./env.js";
+import "colors";
+import path from "path";
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import fileUpload from "express-fileupload";
+import { errorHandler, notFound } from "./middleware/error.js";
+import connectDB from "./config/db.js";
+import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 // Config DotEnv
 
@@ -32,9 +32,8 @@ app.use(cors());
 //     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 //   });
 // }
-if (process.env.NODE_ENV !== 'production') {
-  app.use(morgan('dev'));
-  
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
 }
 
 app.use(express.json());
@@ -45,10 +44,10 @@ app.use(
 );
 // Routes
 
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/upload', uploadRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/upload", uploadRoutes);
 
 // Error Handler
 app.use(notFound);

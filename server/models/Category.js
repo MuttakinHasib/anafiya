@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { nanoid } from "nanoid";
-import { createSlug } from "../utils/slug";
+import { createSlug } from "../utils/slug.js";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -17,10 +17,11 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-const Category = mongoose.model("Category", categorySchema);
-
-categorySchema.pre("save", async function (next) {
+categorySchema.pre("save", function (next) {
   this.slug = createSlug(this.name + "-" + nanoid(5));
+  next();
 });
+
+const Category = mongoose.model("Category", categorySchema);
 
 export default Category;

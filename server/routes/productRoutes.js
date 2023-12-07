@@ -1,19 +1,21 @@
-import express from 'express';
+import express from "express";
 import {
   createProduct,
   createProductReview,
   deleteProduct,
   getProductById,
   getProducts,
+  getTopRatingProducts,
   updateProduct,
-} from '../controllers/productController.js';
-import { admin, protect } from '../middleware/auth.js';
+} from "../controllers/productController.js";
+import { admin, protect } from "../middleware/auth.js";
 const router = express.Router();
 
-router.route('/').get(getProducts);
-router.route('/create').post(protect, admin, createProduct);
+router.route("/").get(getProducts);
+router.route("/create").post(protect, admin, createProduct);
+router.route("/top-rating").get(getTopRatingProducts);
 router
-  .route('/:id')
+  .route("/:id")
   .get(getProductById)
   .post(protect, createProductReview)
   .put(protect, admin, updateProduct)

@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { cartReducer } from './cartReducers';
+import { combineReducers } from "redux";
+import { cartReducer } from "./cartReducers";
 import {
   orderCreateReducer,
   orderDeliveredReducer,
@@ -8,7 +8,7 @@ import {
   orderPayReducer,
   stripePaymentReducer,
   userOrdersListReducer,
-} from './orderReducers';
+} from "./orderReducers";
 import {
   productCreateReducer,
   productDeleteReducer,
@@ -16,7 +16,8 @@ import {
   productListReducer,
   productReviewCreateReducer,
   productUpdateReducer,
-} from './productReducers';
+  topRatingProductsReducer,
+} from "./productReducers";
 import {
   userActivationReducer,
   userDeleteReducer,
@@ -29,7 +30,7 @@ import {
   userProfileUpdateReducer,
   userRegisterReducer,
   userUpdateReducer,
-} from './userReducers';
+} from "./userReducers";
 
 export default combineReducers({
   userLogin: userLoginReducer,
@@ -45,6 +46,7 @@ export default combineReducers({
   userDelete: userDeleteReducer,
   userOrdersList: userOrdersListReducer,
   productList: productListReducer,
+  topRatingProducts: topRatingProductsReducer,
   productDetails: productDetailsReducer,
   productCreate: productCreateReducer,
   productReviewCreate: productReviewCreateReducer,

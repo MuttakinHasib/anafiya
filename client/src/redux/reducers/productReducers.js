@@ -21,7 +21,8 @@ import {
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_RESET,
   PRODUCT_UPDATE_SUCCESS,
-} from '../actions/types';
+  TOP_RATING_PRODUCTS_SUCCESS,
+} from "../actions/types";
 
 // GET ALL PRODUCTS
 export const productListReducer = (state = { products: [] }, action) => {
@@ -35,6 +36,27 @@ export const productListReducer = (state = { products: [] }, action) => {
         products: action.payload.products,
         pages: action.payload.pages,
         page: action.payload.page,
+      };
+    case PRODUCT_LIST_FAIL:
+      return { error: action.payload };
+
+    default:
+      return state;
+  }
+};
+// GET TOP RATING PRODUCTS
+export const topRatingProductsReducer = (
+  state = { topRatingProducts: [] },
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_LIST_REQUEST:
+      return { loading: true };
+    case TOP_RATING_PRODUCTS_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        topRatingProducts: action.payload,
       };
     case PRODUCT_LIST_FAIL:
       return { error: action.payload };

@@ -25,7 +25,9 @@ const HomeScreen = () => {
     loading,
   } = useSelector((state) => state.productList);
 
-  const { topRatingProducts } = useSelector((state) => state.topRatingProducts);
+  const { topRatingProducts = [] } = useSelector(
+    (state) => state.topRatingProducts
+  );
 
   const { success: productCreated } = useSelector(
     (state) => state.productCreate
@@ -33,7 +35,6 @@ const HomeScreen = () => {
 
   useEffect(() => {
     dispatch(getProductList(keyword, pageNumber));
-    dispatch(getTopRatingProducts());
   }, [dispatch, productCreated, pageNumber, keyword]);
 
   useEffect(() => {

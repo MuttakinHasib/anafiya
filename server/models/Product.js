@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
     name: {
       type: String,
@@ -15,7 +15,7 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: true,
       default:
-        'https://res.cloudinary.com/muttakinhasib/image/upload/v1611336104/avatar/user_qcrqny.svg',
+        "https://res.cloudinary.com/muttakinhasib/image/upload/v1611336104/avatar/user_qcrqny.svg",
     },
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
@@ -28,13 +28,13 @@ const productSchema = new mongoose.Schema(
     user: {
       type: mongoose.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
     name: {
       type: String,
       required: true,
     },
-    image: { type: String, required: true },
+    image: { type: Array, required: true },
     brand: {
       type: String,
       required: true,
@@ -62,6 +62,6 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 export default Product;

@@ -11,6 +11,7 @@ import {
   getTopRatingProducts,
 } from "../redux/actions/productActions";
 import { Meta, Slider } from "../components";
+import { Slideshow } from "../components/slideshow";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -57,7 +58,8 @@ const HomeScreen = () => {
     <motion.div exit={{ opacity: 0 }} initial="initial" animate="animate">
       {loading && <Loader />}
       <Meta />
-      <Slider />
+      {/* <Slider /> */}
+      <Slideshow />
       <motion.h1
         className="text-3xl font-semibold text-gray-700 mb-10"
         initial={{ opacity: 0 }}
@@ -77,7 +79,7 @@ const HomeScreen = () => {
       </motion.div>
       {pages > 1 && (
         <div className="text-center">
-          <div className="bg-gray-100  my-12 px-3 py-3 inline-block rounded-md">
+          <div className="bg-gray-100 my-12 px-3 py-3 inline-block rounded-md">
             <ReactPaginate
               previousLabel={
                 <svg

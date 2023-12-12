@@ -262,3 +262,24 @@ label:not(.upload-btn) {
     height: 120px !important;
   }
 }
+
+
+.slick-dots {
+  bottom:  1.75rem !important
+}
+.slick-dots li {
+  width: 0.75rem !important;
+  height: 0.75rem !important;
+}
+.slick-dots .slick-active button {
+  background-color:  rgb(255, 106, 0) !important;
+}
+.slick-dots li button {
+  height: 100%;
+  width: 100%;
+  background-color: #f2f2f2 !important;
+  border-radius: 100%;
+}
+.slick-dots li button::before {
+  display: none;
+}

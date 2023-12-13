@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   facebookSignIn,
   googleSignIn,
   register,
-} from '../redux/actions/userActions';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { GoogleLogin } from 'react-google-login';
-import Meta from '../components/Meta';
+} from "../redux/actions/userActions";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { GoogleLogin } from "react-google-login";
+import Meta from "../components/Meta";
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -18,116 +18,136 @@ const RegisterScreen = () => {
   const { user } = useSelector(({ userLogin }) => userLogin);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    cPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    cPassword: "",
   });
 
   const { firstName, lastName, email, password, cPassword } = formData;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (
-      firstName === '' ||
-      email === '' ||
-      password === '' ||
-      cPassword === ''
+      firstName === "" ||
+      email === "" ||
+      password === "" ||
+      cPassword === ""
     ) {
-      toast.error('Please fill all fields');
+      toast.error("Please fill all fields");
     } else if (password !== cPassword) {
-      toast.error('Please make sure your passwords match');
+      toast.error("Please make sure your passwords match");
     } else {
       dispatch(register({ firstName, lastName, email, password }));
     }
   };
 
-  const googleSignInHandler = res => {
+  const googleSignInHandler = (res) => {
     dispatch(googleSignIn({ idToken: res.tokenId }));
   };
-  const facebookSignInHandler = res => {
+  const facebookSignInHandler = (res) => {
     const { accessToken, userID } = res;
     dispatch(facebookSignIn({ accessToken, userID }));
   };
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate("/");
     }
   }, [user, navigate]);
 
   return (
-    <div className='grid gap-15 md:grid-cols-2 mt-20'>
-      <Meta title='Create new account' />
-      <div className='m-auto'>
-        <h2 className='text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-gray-700'>
+    <div className="grid gap-15 md:grid-cols-2 mt-20">
+      <Meta title="Create new account" />
+      <div className="m-auto">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-gray-700">
           Get started <br /> With a free Account
         </h2>
-        <p className='prose mt-5 text-gray-500'>
+        <p className="prose mt-5 text-gray-500">
           Already have an account? <br />
-          Please{' '}
-          <Link to='/login'>
-            <span className='text-blue-600'>Login here!</span>
+          Please{" "}
+          <Link to="/login">
+            <span className="text-blue-600">Login here!</span>
           </Link>
         </p>
       </div>
-      <div className='max-w-full sm:max-w-lg mx-auto md:ml-auto'>
+      <div className="max-w-full sm:max-w-lg mx-auto md:ml-auto">
         <form
-          className='space-y-3 sm:space-y-5 border-0 border-dashed border-gray-100 p-10'
+          className="space-y-3 sm:space-y-5 border-0 border-dashed border-gray-100 p-10"
           {...{ onSubmit }}
         >
-          <div className='flex sm:flex-row flex-col items-center space-y-3 sm:space-y-0 sm:space-x-5'>
+          <div className="flex sm:flex-row flex-col items-center space-y-3 sm:space-y-0 sm:space-x-5">
+            <div className="space-y-2">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                className="border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full"
+                placeholder="Enter your first name"
+                required
+                value={firstName}
+                {...{ onChange }}
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                id="lastName"
+                type="text"
+                className="border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full"
+                placeholder="Enter your last name"
+                name="lastName"
+                value={lastName}
+                {...{ onChange }}
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="email">Email Address</label>
             <input
-              type='text'
-              name='firstName'
-              className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
-              placeholder='First Name'
+              type="email"
+              id="email"
+              className="border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full"
+              placeholder="Enter your email address"
               required
-              value={firstName}
-              {...{ onChange }}
-            />
-            <input
-              type='text'
-              className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
-              placeholder='Last Name'
-              name='lastName'
-              value={lastName}
+              name="email"
+              value={email}
               {...{ onChange }}
             />
           </div>
-          <input
-            type='email'
-            className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
-            placeholder='E-mail Address'
-            required
-            name='email'
-            value={email}
-            {...{ onChange }}
-          />
-          <div className='flex sm:flex-row flex-col items-center space-y-3 sm:space-y-0 sm:space-x-5'>
-            <input
-              type='password'
-              className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
-              placeholder='Enter Password'
-              required
-              name='password'
-              value={password}
-              {...{ onChange }}
-            />
-            <input
-              type='password'
-              className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
-              placeholder='Confirm Password'
-              required
-              name='cPassword'
-              value={cPassword}
-              {...{ onChange }}
-            />
+          <div className="flex sm:flex-row flex-col items-center space-y-3 sm:space-y-0 sm:space-x-5">
+            <div className="space-y-2">
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                className="border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full"
+                placeholder="Enter password"
+                required
+                name="password"
+                value={password}
+                {...{ onChange }}
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="cp">Confirm Password</label>
+              <input
+                id="cp"
+                type="password"
+                className="border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full"
+                placeholder="Confirm your password"
+                required
+                name="cPassword"
+                value={cPassword}
+                {...{ onChange }}
+              />
+            </div>
           </div>
-          <button className='bg-blue-600 hover:bg-blue-700 shadow-lg rounded-lg text-white px-5 py-2 h-12 w-full transition-colors duration-300 focus:outline-none'>
+          <button className="bg-blue-600 hover:bg-blue-700 shadow-lg rounded-lg text-white px-5 py-2 h-12 w-full transition-colors duration-300 focus:outline-none">
             Create Account
           </button>
         </form>

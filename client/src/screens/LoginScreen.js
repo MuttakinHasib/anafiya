@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   facebookSignIn,
   googleSignIn,
   login,
-} from '../redux/actions/userActions';
-import Loader from '../components/Loader';
-import Meta from '../components/Meta';
+} from "../redux/actions/userActions";
+import Loader from "../components/Loader";
+import Meta from "../components/Meta";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -19,74 +19,83 @@ const LoginScreen = () => {
     ({ userLogin }) => userLogin
   );
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const { email, password } = formData;
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
   };
 
-  const googleSignInHandler = res => {
+  const googleSignInHandler = (res) => {
     dispatch(googleSignIn({ idToken: res.tokenId }));
   };
-  const facebookSignInHandler = res => {
+  const facebookSignInHandler = (res) => {
     const { accessToken, userID } = res;
     dispatch(facebookSignIn({ accessToken, userID }));
   };
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate("/");
     }
   }, [user, navigate]);
 
   // loginError && toast.error(loginError);
   return (
-    <div className='grid gap-15 md:grid-cols-2 mt-20'>
-      <Meta title='Login Page' />
+    <div className="grid gap-15 md:grid-cols-2 mt-20">
+      <Meta title="Login Page" />
       {loginLoading && <Loader />}
-      <div className='m-auto'>
-        <h2 className='text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-gray-700'>
+      <div className="m-auto">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl leading-tight font-semibold text-gray-700">
           Assalamualaikom
           <br /> Welcome Back
         </h2>
-        <p className='prose mt-5 text-gray-500'>
+        <p className="prose mt-5 text-gray-500">
           You don't have an account? <br />
-          Please{' '}
-          <Link to='/register'>
-            <span className='text-blue-600'>Register here!</span>
+          Please{" "}
+          <Link to="/register">
+            <span className="text-blue-600">Register here!</span>
           </Link>
         </p>
       </div>
-      <div className='max-w-full sm:max-w-lg mx-auto md:ml-auto'>
+      <div className="max-w-full sm:max-w-lg mx-auto md:ml-auto">
         <form
-          className='space-y-5 border-0 border-dashed border-gray-100 p-10'
+          className="space-y-5 border-0 border-dashed border-gray-100 p-10"
           {...{ onSubmit }}
         >
-          <input
-            type='email'
-            name='email'
-            className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
-            placeholder='E-mail Address'
-            required
-            value={email}
-            {...{ onChange }}
-          />
-          <input
-            type='password'
-            name='password'
-            className='border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full'
-            placeholder='Password'
-            required
-            value={password}
-            {...{ onChange }}
-          />
-          <button className='bg-blue-600 hover:bg-blue-700 shadow-lg rounded-lg text-white px-5 py-2 h-12 w-full transition-colors duration-300 focus:outline-none'>
+          <div className="space-y-2">
+            <label htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full"
+              placeholder="Enter your email address"
+              required
+              value={email}
+              {...{ onChange }}
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="password">Password</label>
+
+            <input
+              id="password"
+              type="password"
+              name="password"
+              className="border-0 bg-gray-100 bg-opacity-50 px-4 border-gray-100 rounded-md focus:ring-0 focus:border-gray-200 w-full"
+              placeholder="Enter your password"
+              required
+              value={password}
+              {...{ onChange }}
+            />
+          </div>
+          <button className="bg-blue-600 hover:bg-blue-700 shadow-lg rounded-lg text-white px-5 py-2 h-12 w-full transition-colors duration-300 focus:outline-none">
             Sign in
           </button>
         </form>

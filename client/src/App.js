@@ -29,6 +29,7 @@ import {
   ProductCreateScreen,
   OrderListScreen,
   NotFoundScreen,
+  CategoriesScreen,
 } from "./screens";
 import { Footer } from "./components/footer";
 
@@ -76,6 +77,12 @@ function App() {
                   element={<ProductCreateScreen />}
                 />
                 <Route path="/products/:id" element={<ProductEditScreen />} />
+                <Route path="/categories" element={<CategoriesScreen />} />
+                <Route
+                  path="/categories/create"
+                  element={<ProductCreateScreen />}
+                />
+                <Route path="/categories/:id" element={<ProductEditScreen />} />
                 <Route path="/orderlist" element={<UserOrderListScreen />} />
                 <Route
                   path="/change-password"

@@ -23,7 +23,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Bypass cors
-app.use(cors());
+app.use(cors({}));
 
 // const __dirname = path.resolve();
 

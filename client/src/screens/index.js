@@ -18,7 +18,7 @@ export { default as ProductCreateScreen } from "./ProductCreateScreen";
 
 export { default as CategoriesScreen } from "./CategoriesScreen";
 // export { default as ProductEditScreen } from "./ProductEditScreen";
-// export { default as ProductCreateScreen } from "./ProductCreateScreen";
+export { default as CategoryCreateScreen } from "./CategoryCreateScreen";
 
 export { default as UserOrderListScreen } from "./UserOrderListScreen";
 export { default as OrderListScreen } from "./OrderListScreen";

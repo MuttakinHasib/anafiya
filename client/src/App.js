@@ -30,6 +30,7 @@ import {
   OrderListScreen,
   NotFoundScreen,
   CategoriesScreen,
+  CategoryCreateScreen,
 } from "./screens";
 import { Footer } from "./components/footer";
 
@@ -80,7 +81,7 @@ function App() {
                 <Route path="/categories" element={<CategoriesScreen />} />
                 <Route
                   path="/categories/create"
-                  element={<ProductCreateScreen />}
+                  element={<CategoryCreateScreen />}
                 />
                 <Route path="/categories/:id" element={<ProductEditScreen />} />
                 <Route path="/orderlist" element={<UserOrderListScreen />} />

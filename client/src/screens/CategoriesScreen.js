@@ -18,7 +18,8 @@ const CategoriesScreen = () => {
   const {
     categories: { data, totalPage, page },
     loading,
-  } = useCategory(pageNumber);
+    deleteCategory,
+  } = useCategory(pageNumber, true);
 
   const { user: userLogin } = useSelector((state) => state.userLogin);
 
@@ -142,7 +143,7 @@ const CategoriesScreen = () => {
                               "Are you sure to delete this category?"
                             )
                           ) {
-                            // dispatch(deletecategory(category?._id));
+                            deleteCategory(category?._id);
                           }
                         }}
                       >

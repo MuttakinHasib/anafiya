@@ -20,3 +20,14 @@ export const getCategories = asyncHandler(async (req, res) => {
 
   res.json({ categories, page, pages: Math.ceil(count / pageSize) });
 });
+
+export const deleteCategory = asyncHandler(async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  if (category) {
+    await category.remove();
+    res.json({ message: "Category Deleted Successfully" });
+  } else {
+    res.status(400);
+    throw new Error("Category not found");
+  }
+});

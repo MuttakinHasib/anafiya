@@ -31,3 +31,13 @@ export const deleteCategory = asyncHandler(async (req, res) => {
     throw new Error("Category not found");
   }
 });
+
+export const getCategoryById = asyncHandler(async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  res.json(category);
+});
+
+export const updateCategoryById = asyncHandler(async (req, res) => {
+  const category = await Category.findByIdAndUpdate(req.params.id, req.body);
+  res.json(category);
+});

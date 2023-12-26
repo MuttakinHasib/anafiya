@@ -5,10 +5,16 @@ import {
   createCategory,
   deleteCategory,
   getCategories,
+  getCategoryById,
+  updateCategoryById,
 } from "../controllers/categoryController.js";
 const router = express.Router();
 
 router.route("/").get(getCategories).post(protect, admin, createCategory);
-router.route("/:id").delete(protect, admin, deleteCategory);
+router
+  .route("/:id")
+  .get(protect, admin, getCategoryById)
+  .patch(protect, admin, updateCategoryById)
+  .delete(protect, admin, deleteCategory);
 
 export default router;

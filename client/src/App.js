@@ -33,6 +33,7 @@ import {
   CategoryCreateScreen,
 } from "./screens";
 import { Footer } from "./components/footer";
+import CategoryEditScreen from "./screens/CategoryEditScreen";
 
 function App() {
   return (
@@ -83,7 +84,10 @@ function App() {
                   path="/categories/create"
                   element={<CategoryCreateScreen />}
                 />
-                <Route path="/categories/:id" element={<ProductEditScreen />} />
+                <Route
+                  path="/categories/:id"
+                  element={<CategoryEditScreen />}
+                />
                 <Route path="/orderlist" element={<UserOrderListScreen />} />
                 <Route
                   path="/change-password"

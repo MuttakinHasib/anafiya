@@ -162,14 +162,14 @@ export const Footer = () => {
           <p className="text-sm text-gray-400 md:text-start text-center">
             &copy; {new Date().getFullYear()} All Rights Reserved. Developed by
             &nbsp;
-            <Link
-              to="https://github.com/muttakinhasib"
+            <a
+              href="https://github.com/muttakinhasib"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline text-yellow-500 whitespace-nowrap"
             >
               Muttakin Islam Hasib
-            </Link>
+            </a>
           </p>
 
           <img

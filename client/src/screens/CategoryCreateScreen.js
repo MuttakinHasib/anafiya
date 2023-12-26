@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Loader from "../components/Loader";
-import { createProduct } from "../redux/actions/productActions";
+
+import { CATEGORY_API } from "../services/category";
+import toast from "react-hot-toast";
+import { useQueryClient } from "react-query";
 
 const ProductCreateScreen = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
   const [uploading, setUploading] = useState(false);
 
   const { user: userLogin } = useSelector((state) => state.userLogin);
@@ -21,7 +23,7 @@ const ProductCreateScreen = () => {
     if (!userLogin && !userLogin?.isAdmin) {
       navigate("/profile");
     }
-  }, [dispatch, userLogin, navigate]);
+  }, [userLogin, navigate]);
 
   // Upload Avatar Handler
 
@@ -58,15 +60,26 @@ const ProductCreateScreen = () => {
 
   // Submit form handler
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch(
-      createProduct({
-        name,
-
-        image,
-      })
-    );
+    try {
+      toast.promise(
+        CATEGORY_API.createCategory({
+          name,
+          icon: image,
+        }),
+        {
+          loading: "Creating...",
+          success: "Category Created",
+          error: "Something went wrong",
+        }
+      );
+      queryClient.invalidateQueries(["categories", { page: 1 }]);
+      setName("");
+      setImage([]);
+    } catch (error) {
+      console.error("Something went wrong");
+    }
   };
 
   return (
@@ -148,6 +161,7 @@ const ProductCreateScreen = () => {
                 className="text-gray-600 px-4 rounded-md bg-gray-100 w-full border-gray-300"
                 type="text"
                 value={name}
+                required
                 placeholder="Enter category title"
                 onChange={(e) => setName(e.target.value)}
               />

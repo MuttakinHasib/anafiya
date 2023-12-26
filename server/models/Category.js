@@ -8,7 +8,7 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    icon: { type: String },
+    icon: { type: Array },
     slug: { type: String },
   },
   {
